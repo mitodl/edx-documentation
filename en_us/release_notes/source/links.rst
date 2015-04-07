@@ -74,6 +74,12 @@
 
 .. _edX Platform API: http://edx-platform-api.readthedocs.org/en/latest/index.html
 
+.. _Course Structure API Version 0: http://edx.readthedocs.org/projects/edx-platform-api/en/latest/course_structure/index.html#edx-platform-course-structure-api-version-0
+
+.. _Enrollment API Version 1.0: http://edx.readthedocs.org/projects/edx-platform-api/en/latest/enrollment/index.html#edx-platform-enrollment-api-version-1-0
+
+.. _User API Version 0: http://edx.readthedocs.org/projects/edx-platform-api/en/latest/user/index.html#edx-platform-user-api-version-0
+
 .. other links not yet categorized carefully
 
 

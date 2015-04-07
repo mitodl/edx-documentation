@@ -22,6 +22,12 @@ edX Research Guide
 
 Added the `Course Content Data`_ section to describe the course structure file.
 
+==================================
+Open edX Platform APIs
+==================================
+
+Added the `Course Structure API Version 0`_, `Enrollment API Version 1.0`_,
+and `User API Version 0`_ sections.
 
 ******************
 March 31, 2015
