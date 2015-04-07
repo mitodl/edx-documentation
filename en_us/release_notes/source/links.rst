@@ -31,6 +31,10 @@
 
 .. _Problems and Tools:  http://edx-open-learning-xml.readthedocs.org/en/latest/problem-xml/index.html
 
+.. _Image Mapped Input: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/exercises_tools/image_mapped_input.html
+
+.. _Timer Between Attempts: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/creating_content/create_problem.html#timer-between-attempts
+
 .. _OLX Course Structure: http://edx-open-learning-xml.readthedocs.org/en/latest/directory-structure.html#odl-directory-structure
 
 .. _Course Components (XBlocks): http://edx-open-learning-xml.readthedocs.org/en/latest/components/index.html
@@ -138,6 +142,7 @@
 
 .. _Data Delivered in Data Packages: http://edx.readthedocs.org/projects/devdata/en/latest/internal_data_formats/package.html
 
+.. _Course Content Data: http://edx.readthedocs.org/projects/devdata/en/latest/internal_data_formats/course_structure.html#course-structure
 
 .. _edX Platform Developer's Guide: http://edx.readthedocs.org/projects/edx-developer-guide/en/latest/
 

@@ -2,6 +2,26 @@
 edX Documentation
 ####################################
 
+******************
+April 7, 2015
+******************
+
+==================================
+Building and Running an edX Course
+==================================
+
+* Added instructions for specifying multiple or irregular regions to
+  the `Image Mapped Input`_ topic.
+
+* Added the `Timer Between Attempts`_ section to the "Working with
+  Problem Components" topic.
+
+==================================
+edX Research Guide
+==================================
+
+Added the `Course Content Data`_ section to describe the course structure file.
+
 
 ******************
 March 31, 2015
