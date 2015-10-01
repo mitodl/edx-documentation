@@ -73,7 +73,7 @@ The code samples below show how to do each of these things for:
 * `JavaScript files`_
 * `Coffeescript files`_
 * `Underscore template files`_
-* `Other kinds of code`_
+* `Other types of content`_
 
 Note that you have to take into account not just the programming language involved,
 but the type of file: JavaScript embedded in an HTML Mako template is treated differently
@@ -137,8 +137,13 @@ functions first. Here's a Mako template example::
 
     <%! from django.utils.translation import ugettext as _ %>
  
-    ## Translators: message to the translator
+    ## Translators: message to the translator. This comment may
+    ## wrap on to multiple lines if needed, as long as they are
+    ## lines directly above the marked up string.
     ${_("Welcome!")}
+
+Make sure that all Mako comments, including translators comments, begin
+with *two* pound signs (#).
 
 JavaScript files
 ================
@@ -220,9 +225,22 @@ For example::
 Note: it is recommended that you use ``<%-`` for all translated strings
 as this will HTML escape the string before including it in the page. This
 ensures that translations are free to use non-HTML characters.
+Important note: Due to the bug in the underlying underscore extraction library,
+when ```interpolate``` and ```gettext``` are in the same line, the library will
+not work properly; in such situation, the library will just extract the word 
+```gettext``` rather than the actual string need to be extracted. So please make 
+sure to separate ```interpolate``` and ```gettext``` into two different lines, 
+just like the above example does.
 
-Other kinds of code
-===================
+Currently, translators comments are not supported in Underscore template files,
+as the underlying library does not parse them out. We recommend you add them in
+using standard comment syntax, so that when work is done to support these comments,
+we already have them defined. Additionally, translators comments in the code
+will enable us to answer questions from translators.
+
+
+Other types of content
+======================
 
 We have not yet established guidelines for internationalizing the following.
 
@@ -231,73 +249,42 @@ We have not yet established guidelines for internationalizing the following.
 * Documentation (written for Sphinx as .rst files)
 
 
-Building and testing your code
-******************************
-
-These instructions assume you are a developer writing new code to check in to
-Github. For other use cases in the translation life cycle (such as translating
-the strings, or checking the translations into Github, see use cases).
-
-1. Create human-readable .po files with the latest strings. This command may
-   take a minute or two to complete::
-
-    $ cd edx-platform
-    $ paver i18n_extract
-
-2. Generate dummy strings:  See coverage testing (below) for more details. This
-   will create an "Esperanto" translation that is actually over-accented
-   English.  Use this to create fake translations::
-
-    $ paver i18n_dummy
-    
-3. Run the paver i18n_generate command to create machine-readable .mo files::
- 
-    $ paver i18n_generate
-
-4. Django should be ready to go. The next time you run Studio or LMS, append
-   ``?preview-lang=eo`` to the URL to turn on Esperanto as a dark language. The
-   accented-English strings (from step 3, above) should be displayed.
-
-   If you experience issues, be sure that your settings for ``USE_I18N`` and
-   ``USE_L10N`` are both set to True.
-
-5. With Esperanto turned on as a dark language (see Step 4), review the pages
-   affected by your code and verify that you see fake translations. If you see
-   plain English instead, your code is not being properly translated. Review 
-   the steps in editing source files (above). 
-
-6. When you are done reviewing, append ``?clear-lang`` to the LMS or Studio URL
-   to reset your session to English.
-
-
 Coverage testing
 ****************
 
-This tool is used during the bootstrap phase, when presumably (1) there is a
-lot of edX source code to be converted, and (2) there are not a lot of
-available translations for externalized edX strings. At the end of the
-bootstrap phase, we will eventually deprecate this tool in favor of other
-processes. Once most of the edX source code has been successfully converted,
-and there are several full translations available, it will be easier to detect
-and correct specific gaps in compliance.
+These instructions assume you are a developer working on internationalizing
+new or existing user-facing features. To test that your code is properly i18n'd,
+you'll first generate a set of 'dummy' translations, then view those translations
+on your app's page to make sure everything (scraping and serving) is working
+properly.
 
-Use the coverage tool to generate dummy files::
+First, use the coverage tool to generate dummy files::
 
     $ paver i18n_dummy
     
 This will create new dummy translations in the Esperanto directory
-(edx-platform/conf/local/eo/LC_MESSAGES).
+(edx-platform/conf/local/eo/LC_MESSAGES) and the RTL directory
+(edx-platform/conf/local/rtl/LC_MESSAGES). DO NOT CHECK THESE FILES IN. You
+should discard these files once you are done testing.
 
-You can then configure your browser preferences to view Esperanto as your
-preferred language. Instead of plain English strings, you should see something
-like this:
+Next, restart the LMS and Studio to load in the new translation files::
+
+    $ paver devstack lms
+    $ paver devstack studio
+
+When you visit Studio or the LMS, append
+``?preview-lang=eo`` to the URL to view the webpage in the dummy testing
+language.
+
+Instead of plain English strings, you should see specially-accented English
+strings that look like this:
 
     Thé Fütüré øf Ønlïné Édüçätïøn Ⱡσяєм ι#
     Før änýøné, änýwhéré, änýtïmé Ⱡσяєм #
 
 This dummy text is distinguished by extra accent characters. If you see plain
 English instead (without these accents), it most likely means the string has
-not been externalized yet. To fix this: 
+not been marked for translation yet, or you've broken a rule. To fix this: 
 
 * Find the string in the source tree (either in Python, JavaScript, or HTML
   template code). 
@@ -317,6 +304,18 @@ page layout, such as columns that don't fit, or text that is truncated (the
 probably need to fix the page layouts accordingly to accommodate the longer
 strings.
 
+Finally, append ``?preview-lang=rtl`` to the end of your URL to view your
+feature in the dummy RTL language. Test to make sure that the UX is properly
+"flipped" to right-to-left mode. Note that certain page elements may not look
+correct because they are controlled by the browser. For the best testing, switch
+your browser's language to Arabic or another RTL language (Hebrew, Persian, or
+Urdu) as well. See our `RTL UI Guidelines`_ for information on fixing any issues
+that you find.
+
+When you are done reviewing, append ``?clear-lang`` to the LMS or Studio URL
+to reset your session to your base language.
+
+.. _RTL UI Guidelines: https://github.com/edx/edx-platform/wiki/RTL-UI-Best-Practices
 
 Style guidelines
 ****************
@@ -331,20 +330,43 @@ properly for other languages.
 
 Bad::
 
-    message = _("The directory has ") + len(directory.files) + _(" files.")
+    message = _("Welcome to the ") + settings.PLATFORM_NAME + _(" dashboard.")
 
 In this scenario, the translator will have to figure out how to translate these
-two separate strings. It is very difficult to translate a fragment like "The
-directory has." In some languages the fragments will be in different order. For
-example, in Japanese, "files" will come before "has."
+two separate strings. It is very difficult to translate a fragment like "Welcome to 
+the." In some languages the fragments will be in different order.
+For example, Spanish would order this phrase as "Welcome to the dashboard of edX".
 
 It is much easier for a translator to figure out how to translate the entire
-sentence, using the pattern "The directory has {file_count} files."
+sentence, using the pattern "Welcome to the {platform_name} dashboard."
 
 Good::
 
-    message = _("The directory has {file_count} files.").format(file_count=directory.files)
+    message = _("Welcome to the {platform_name} dashboard.").format(platform_name=settings.PLATFORM_NAME)
 
+
+Please note that you cannot concatenate within the gettext call at all. For example,
+this does not work:
+
+Bad::
+
+    message = _(
+        "Welcome to {platform_name}, the online learning platform " +
+        "that hosts courses from world-class universities around the world!"
+    ).format(platform_name=settings.PLATFORM_NAME)
+
+In Python, because _() is a function you can actually do this:
+
+Good (Python only!)::
+
+    message = _(
+        "Welcome to {platform_name}, the online learning platform "
+        "that hosts courses from world-class universities around the world!"
+    ).format(platform_name=settings.PLATFORM_NAME)
+
+However, in Javascript and other languages, the gettext call cannot be broken up over
+multiple lines. You will have to live with long lines on gettext calls, and we make a
+style exception for this.
 
 Use named placeholders
 ======================

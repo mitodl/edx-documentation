@@ -2,6 +2,68 @@
 Change Log
 ############
 
+
+****************
+October 2015
+****************
+
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Date
+     - Change
+   * - 1 October 2015
+     - Added information about awarding partial credit for the following
+       problems.
+       
+       * :ref:`Awarding Partial Credit for a Problem`
+       * :ref:`Awarding Partial Credit in a Checkbox Problem`
+       * :ref:`Awarding Partial Credit in a Multiple Choice Problem` 
+       * :ref:`Awarding Partial Credit in a Numerical Input Problem`
+       * :ref:`Awarding Partial Credit in a Write Your Own Grader
+         Problem<Award Partial Credit>`
+
+****************
+July 2015
+****************
+
+.. list-table::
+   :widths: 10 70
+   :header-rows: 1
+
+   * - Date
+     - Change
+   * - 8 July 2015
+     - Added the :ref:`Poll Tool` and :ref:`Survey Tool` sections.
+
+****************
+June 2015
+****************
+
+.. list-table::
+   :widths: 10 70
+   :header-rows: 1
+
+   * - Date
+     - Change
+   * - 23 June
+     - Several additions were made to provide information about using feedback
+       and hints in common problems.
+       
+       * :ref:`Adding Feedback and Hints to a Problem`
+       * :ref:`Use Feedback in a Checkbox Problem`
+       * :ref:`Use Hints in a Checkbox Problem`
+       * :ref:`Use Feedback in a Dropdown Problem` 
+       * :ref:`Use Hints in a Dropdown Problem`
+       * :ref:`Use Feedback in a Multiple Choice Problem` 
+       * :ref:`Use Hints in a Multiple Choice Problem`
+       * :ref:`Use Feedback in a Numerical Input Problems` 
+       * :ref:`Use Hints in a Numerical Input Problem`
+       * :ref:`Use Feedback in a Text Input Problem` 
+       * :ref:`Use Hints in a Text Input Problem`
+
+
 ****************
 March 2015
 ****************

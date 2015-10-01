@@ -4,7 +4,7 @@
 Problems
 #################################
 
-The format for edX problems is based on the `LONCAPA XML format`_,
+The format for edX problems is based on the `LON-CAPA XML format`_,
 although the two are not quite compatible. In the edX variant, problems are
 composed of four types of tags:
 
@@ -22,7 +22,8 @@ this doesn't always work. For example, in the former case, a multiple choice
 question would not give an output in a format a numerical grader could handle.
 
 In addition, in many cases, there is a 1:1 mapping between graders and inputs.
-For some types of inputs (especially discipline-specific specialized ones), only one grader is needed.
+For some types of inputs (especially discipline-specific specialized ones),
+only one grader is needed.
 
 The most general grader is ``customresponse``. This uses Python code
 to evaluate the input. By design, this ought to work with any inputtype,
@@ -52,9 +53,11 @@ approximately identical.
    mult_choice_num_input
    multiple_choice
    numerical_input
+   poll_question
    problem_in_latex
    problem_with_hint
    protein_builder
+   survey
    symbolic_response
    text_input
 

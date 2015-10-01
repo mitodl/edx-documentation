@@ -4,17 +4,11 @@
 Creating a New Course
 ###########################
 
+This topic describes how to create and set up your course with Studio.
 
-*******************
-Overview
-*******************
-
-This chapter describes how to create and set up your course:
-
-* :ref:`Create a New Course`
-* :ref:`Edit Your Course`
-* :ref:`Use the Course Checklist`
-* :ref:`Add Course Team Members`
+.. contents:: Section Contents
+  :local:
+  :depth: 1
 
 Another way to create a course is to re-run an existing course. See
 :ref:`Rerun a Course`.
@@ -32,28 +26,27 @@ Create a New Course
 *******************
 
 #. Log in to Studio.
-#. Click **New Course**.
-#. Enter course information as needed and click **Create**.
+#. Select **New Course**.
+#. Enter course information as needed and select **Create**.
 
   .. note::  Enter new course information carefully. This information becomes
-   part of the URL for your course. To change the URL after the course is
-   created, you must contact edX through the Help site
-   (http://help.edge.edx.org). Additionally, because this information becomes
-   part of your course URL, the total number of characters in the following
-   four fields must be 65 or fewer.
-
+   part of the URL for your course. For courses on edx.org and edX Edge, to
+   change the URL after the course is created, you must contact edX through the
+   Help site (http://help.edge.edx.org). Additionally, because this information
+   becomes part of your course URL, the total number of characters in the
+   following four fields must be 65 or fewer.
+   
   .. image:: ../../../shared/building_and_running_chapters/Images/new_course_info.png
-     :alt: Image of the course creation page
+     :width: 600
+     :alt: Image of the course creation page in Studio.
 
   * For **Course Name**, enter the title of your course. For example, the name
     may be "Sets, Maps, and Symmetry Groups". Use title capitalization for the
     course title.
 
-  * For **Organization**, enter the identifier for your university. For
-    example, enter HarvardX or MITx. Do not include spaces or special
-    characters.
+  * For **Organization**, enter the identifier for your organization. Do not
+    include spaces or special characters.
 
-.. is it ok to include the Harvard and MIT examples?
 
   * For **Course Number**, enter both a subject abbreviation and a number. For
     example, for public health course number 207, enter **PH207**. For math
@@ -61,19 +54,20 @@ Create a New Course
     characters in the course number.
 
     .. note:: If your course will be open to the world, be sure to include the
-     "x". If it is exclusively an on-campus offering, do not include the "x".*
+      "x". If it is exclusively an on-campus offering, do not include the "x".*
 
   * For **Course Run**, enter the term in which your course will run. For
     example, enter 2014SOND or T2_2014. Do not include spaces or special
     characters.
 
     The value that you enter for the run does not affect the course start date
-    that you define for the course. See :ref:`Set Important Dates for Your
-    Course` for more information.
+    that you define for the course. For more information, see :ref:`Scheduling
+    Your Course`.
 
-4. Click **Save.**
 
-You then see the empty Course Outline.
+4. Select **Save.**
+
+You then see the empty course outline.
 
 .. _Edit Your Course:
 
@@ -85,13 +79,14 @@ After you create a course, the course opens in Studio automatically and you
 can begin editing.
 
 When you return to Studio later, the Studio **My Courses** dashboard page lists
-the courses that you create along with any courses for which you have course
-staff privileges.
+the courses that you created as well as any courses for which you have course
+team privileges.
 
- .. image:: ../../../shared/building_and_running_chapters/Images/open_course.png
+.. image:: ../../../shared/building_and_running_chapters/Images/open_course.png
+  :width: 600
   :alt: Image of the course on the Studio dashboard
  
-To open a course, click the course name. The Studio **Course Outline** page
+To open a course, select the course name. The Studio **Course Outline** page
 appears.
 
 .. _Use the Course Checklist:
@@ -112,17 +107,18 @@ Categories of tasks in the Course Checklist include:
 
 From the **Tools** menu, select **Checklists**.
 
- .. image:: ../../../shared/building_and_running_chapters/Images/checklist.png
-  :alt: Image of the course checklist
- 
+.. image:: ../../../shared/building_and_running_chapters/Images/checklist.png
+  :width: 600
+  :alt: Image of the course checklist in Studio.
 
-As shown above for the **Add Course Team Members** task, if you hover over a
-task, a button is displayed that takes you to the page to complete that task.
+As shown in the example above, for the **Add Course Team Members** task, if you
+hover over a task, a button is displayed that takes you to the page to complete
+that task.
 
-You can expand and collapse sections of this page as needed.
+You can expand and collapse sections of the checklist as needed.
 
 You can check tasks as you complete them. Studio saves your changes
-automatically. Other course staff can see your changes.
+automatically. Other members of the course team can see your changes.
 
 .. _Add Course Team Members:
 
@@ -131,7 +127,8 @@ Add Course Team Members
 ************************
 
 Course team members are users who help you build your course. Before you can
-assign Staff or Admin access to a team member:
+assign Staff or Admin access to a team member, you must meet these
+prerequisites.
 
 * You must be an Admin.
 
@@ -142,38 +139,33 @@ assign Staff or Admin access to a team member:
   add.
 
 Other course team members can edit the course and perform all tasks except
-adding and removing other new team members and granting Admin access.
+adding and removing other team members and granting Admin access.
 
 .. note::  Any course team member can delete content created by other team
  members.
 
-All course team members must be registered with Studio and have an active
-account.
-
 To add a course team member:
 
 #. Ensure you have Admin access.
-#. Ensure that the new team member has registered with Studio.
-#. From the **Settings** menu, select **Course Team**.
-#. Click **Add a New Team Member**.
-#. Enter the new team member's email address, then click **ADD USER**. 
+#. Ensure that the new team member has registered and activated an account.
+#. In Studio, from the **Settings** menu, select **Course Team**.
+#. Select **Add a New Team Member**.
+#. Enter the new team member's email address, then select **ADD USER**. 
 
 The new team member can now work on the course in Studio. 
 
 * To preview the course in the LMS, the team member must enroll in the course.
+
 * To moderate course discussions, the team member must also have one of the
   discussion roles. For more information, see
   :ref:`Assigning_discussion_roles`.
 
 You can also assign privileged roles to users when you work in the LMS.
 
-.. note:: The LMS "Course Staff" role is the same as the Studio "Staff" role, 
- and the LMS "Instructors" role is the same as the Studio "Admin" role.
-
-Regardless of where the role is assigned, these administrative team members
-can work on your course in both Studio and the LMS (after enrollment). For
-more information about assigning roles while you run your course, see
-:ref:`Course_Staffing`.
+Regardless of where the role is assigned, these administrative team members can
+work on your course in Studio immediately, and use the LMS and Insights after
+enrollment. For more information about assigning roles while you run your
+course, see :ref:`Course_Staffing`.
 
 You can also designate teams of people to beta test your course and to
 moderate and manage its discussions by assigning other LMS roles. The beta

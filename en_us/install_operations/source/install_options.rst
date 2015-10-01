@@ -4,7 +4,11 @@
 Open edX Platform Installation Options
 ########################################
 
-.. contents:: Chapter Contents:
+This section describes the Open edX installation options.
+
+.. contents::
+ :local:
+ :depth: 1
 
 ***************************
 Open edX Developer Stack
@@ -27,9 +31,15 @@ See the `edx configuration repository wiki`_ for information from edX and the
 Open edX community about Devstack and other installation and configuration
 options. This wiki contains two pages with more information about Devstack.
 
-* `Devstack <Devstack wiki>`_
+* `Devstack wiki`_
 * `Developing on Devstack`_
 
+Given the large number of dependencies needed to develop extensions to
+Open edX Insights, a separate development environment is available to support
+analytics development. This guide includes the following section about the
+analytics devstack:
+
+* :ref:`Installing the Open edX Analytics Developer Stack`
 
 *********************
 Open edX Fullstack

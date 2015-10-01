@@ -119,6 +119,16 @@ enrollment.
 * :ref:`student_courseenrollment`
 * :ref:`user_api_usercoursetag`
 * :ref:`user_id_map`
+* :ref:`student_languageproficiency`
+
+The following tables store data gathered about the teams in a course.
+
+* :ref:`teams_courseteam`
+* :ref:`teams_courseteammembership`
+
+.. note:: The Teams feature is in limited release. For more information,
+   contact your edX Partner Manager. For Open edX sites, contact your system
+   administrator.
 
 .. _auth_user:
 
@@ -238,14 +248,14 @@ is_staff
 ----------
   Most users have a 0 for this field. Set to 1 if the user is a staff member
   of **edX**, with corresponding elevated privileges that cut across courses.
-  It does not indicate that the person is a member of the course staff for any
+  It does not indicate that the person is a member of the course team for any
   given course.
 
-  Generally, users with this flag set to 1 are either edX program managers
+  Generally, users with this flag set to 1 are either edX Partner Managers
   responsible for course delivery, or edX developers who need access for
   testing and debugging purposes. Users who have ``is_staff`` = 1 have
-  instructor privileges on all courses and can see additional debug
-  information on the Instructor tab.
+  Admin privileges on all courses and can see additional debug
+  information on the Instructor Dashboard.
 
 .. note::
      This designation has no bearing on a user's role in the discussion
@@ -335,54 +345,62 @@ A sample of the heading row and a data row in the ``auth_userprofile`` table fol
 
 .. code-block:: json
 
-    id  user_id name  language  location  meta  courseware  gender  mailing_address 
-    year_of_birth level_of_education  goals allow_certificate  country  city
+    id  user_id name  language  location  meta  courseware  gender
+    mailing_address year_of_birth level_of_education  goals allow_certificate
+    country  city  bio   profile_image_uploaded_at
 
-    9999999  AAAAAAAA  AAAAAAAAA English MIT {"old_emails": [["aaaaa@xxxxx.xxx", 
-    "2012-11-16T10:28:10.096489"]], "old_names": [["BBBBBBBBBBBBB", "I wanted 
-    to test out the name-change functionality", "2012-10-22T12:23:10.598444"]]} 
-    course.xml  NULL  NULL  NULL  NULL  NULL  1      NULL
+    9999999  AAAAAAAA  AAAAAAAAA English MIT {"old_emails":
+    [["aaaaa@xxxxx.xxx", "2012-11-16T10:28:10.096489"]], "old_names":
+    [["BBBBBBBBBBBBB", "I wanted to test out the name-change functionality",
+    "2012-10-22T12:23:10.598444"]]} course.xml  NULL  NULL  NULL  NULL  NULL
+    1      NULL   Hi! I'm from the US and I've taken 4 edX courses so far. I
+    want to learn how to confront problems of wealth inequality. 2015-04-19 16:41:27
 
 The ``auth_userprofile`` table has the following columns.
 
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | Column             | Type         | Null | Key | Comment                                  |
-  +====================+==============+======+=====+==========================================+
-  | id                 | int(11)      | NO   | PRI |                                          |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | user_id            | int(11)      | NO   | UNI |                                          |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | name               | varchar(255) | NO   | MUL |                                          |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | language           | varchar(255) | NO   | MUL | # Obsolete                               |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | location           | varchar(255) | NO   | MUL | # Obsolete                               |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | meta               | longtext     | NO   |     |                                          |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | courseware         | varchar(255) | NO   |     | # Obsolete                               |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | gender             | varchar(6)   | YES  | MUL | # Only users signed up after prototype   |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | mailing_address    | longtext     | YES  |     | # Only users signed up after prototype   |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | year_of_birth      | int(11)      | YES  | MUL | # Only users signed up after prototype   |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | level_of_education | varchar(6)   | YES  | MUL | # Only users signed up after prototype   |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | goals              | longtext     | YES  |     | # Only users signed up after prototype   |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | allow_certificate  | tinyint(1)   | NO   |     |                                          |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | country            | varchar(2)   | YES  |     |                                          |
-  +--------------------+--------------+------+-----+------------------------------------------+
-  | city               | longtext     | YES  |     |                                          |
-  +--------------------+--------------+------+-----+------------------------------------------+
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | Column                     | Type         | Null | Key | Comment                                  |
+  +============================+==============+======+=====+==========================================+
+  | id                         | int(11)      | NO   | PRI |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | user_id                    | int(11)      | NO   | UNI |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | name                       | varchar(255) | NO   | MUL |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | language                   | varchar(255) | NO   | MUL | # Obsolete                               |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | location                   | varchar(255) | NO   | MUL | # Obsolete                               |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | meta                       | longtext     | NO   |     |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | courseware                 | varchar(255) | NO   |     | # Obsolete                               |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | gender                     | varchar(6)   | YES  | MUL | # Only users signed up after prototype   |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | mailing_address            | longtext     | YES  |     | # Only users signed up after prototype   |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | year_of_birth              | int(11)      | YES  | MUL | # Only users signed up after prototype   |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | level_of_education         | varchar(6)   | YES  | MUL | # Only users signed up after prototype   |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | goals                      | longtext     | YES  |     | # Only users signed up after prototype   |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | allow_certificate          | tinyint(1)   | NO   |     |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | country                    | varchar(2)   | YES  |     |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | city                       | longtext     | YES  |     |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | bio                        | varchar(3000)| YES  |     |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
+  | profile_image_uploaded_at  | datetime     | YES  |     |                                          |
+  +----------------------------+--------------+------+-----+------------------------------------------+
 
-**History**: ``country`` and ``city`` added January 2014. The organization of
-this table was different for the students who signed up for the MITx prototype
-phase in the spring of 2012, than for those who signed up afterwards. The
-column descriptions that follow detail the differences in the demographic data
+**History**: ``bio`` and ``profile_image_uploaded_at`` added 22 April 2015.
+``country`` and ``city`` added January 2014. The organization of this table
+was different for the students who signed up for the MITx prototype phase in
+the spring of 2012, than for those who signed up afterwards. The column
+descriptions that follow detail the differences in the demographic data
 gathered.
 
 ----
@@ -663,6 +681,23 @@ city
 
   **History**: Added in Jan 2014, not yet implemented.
 
+------
+bio
+------
+  Stores one or more paragraphs of biographical information that the learner
+  enters. The maximum number of characters is 3000.
+
+  **History**: Added 22 April 2015.
+
+
+------------------------------
+profile_image_uploaded_at
+------------------------------
+  Stores the date and time when a learner uploaded a profile image.
+
+  **History**: Added 22 April 2015.
+
+
 .. _student_courseenrollment:
 
 ==============================================
@@ -902,6 +937,300 @@ id
 username
 -----------
   The student's username in ``auth_user.username``. 
+
+.. _student_languageproficiency:
+
+=================================================
+Columns in the student_languageproficiency Table
+=================================================
+
+The ``student_languageproficiency`` table stores information about students'
+self-reported language preferences. Students can select only one value.
+
+**History**: Added 22 April 2015.
+
++-----------------+-------------+------+-----+---------+----------------+
+| Field           | Type        | Null | Key | Default | Extra          |
++-----------------+-------------+------+-----+---------+----------------+
+| id              | int(11)     | NO   | PRI | NULL    | auto_increment |
++-----------------+-------------+------+-----+---------+----------------+
+| user_profile_id | int(11)     | NO   | MUL | NULL    |                |
++-----------------+-------------+------+-----+---------+----------------+
+| code            | varchar(16) | NO   | MUL | NULL    |                |
++-----------------+-------------+------+-----+---------+----------------+
+
+---------
+id
+---------
+ 
+  A database auto-increment field that uniquely identifies the language. This
+  field is not exposed through the API.
+
+----------------
+user_profile_id
+----------------
+
+  Specifies the ID in the ``authuser_profile`` table that is associated with a
+  particular language proficiency.
+   
+----
+code
+----
+  The language code. Most codes are ISO 639-1 codes, with the addition of
+  codes for simplified and traditional Chinese.
+
+
+.. _teams_courseteam:
+
+==============================================
+Columns in the teams_courseteam Table
+==============================================
+
+This table stores information about the teams in a course.
+
+.. note:: The Teams feature is in limited release. For more information,
+   contact your edX Partner Manager. For Open edX sites, contact your system
+   administrator.
+
+**History**: Added September 15 2015
+
+The ``teams_courseteam`` table has the following columns.
+
+.. list-table::
+     :widths: 15 15 15 15
+     :header-rows: 1
+
+     * - Column
+       - Type
+       - Null
+       - Key
+     * - id
+       - int(11)
+       - NO
+       - PRI   
+     * - team_id
+       - varchar(255)  
+       - NO
+       - UNI
+     * - name
+       - varchar(255)
+       - NO
+       - UNI 
+     * - course_id
+       - textfield
+       - NO
+       - MUL
+     * - topic_id
+       - varchar(255)
+       - YES
+       - MUL
+     * - date_created
+       - datetime
+       - NO
+       - MUL 
+     * - description
+       - varchar(300)
+       - NO
+       - MUL
+     * - country
+       - varchar(2)
+       - YES
+       - MUL 
+     * - language
+       - varchar(16)
+       - YES
+       - MUL             
+     * - discussion_topic_id
+       - varchar(255)
+       - NO
+       - MUL
+     * - last_activity_at
+       - datetime
+       - NO
+       - MUL
+     * - team_size
+       - int(11)
+       - NO
+       - MUL
+
+
+--------------------
+id
+--------------------
+
+  The primary key, a database auto-increment field that uniquely identifies
+  the team.
+
+---------
+team_id
+---------
+
+  The unique identifier for this team. 
+
+---------------------
+name
+---------------------
+
+  The display name for this team. A name is required when a team is created.
+
+---------------------
+course_id
+---------------------
+
+  The course identifier, in the format ``{key type}:{org}+{course}+{run}``. For
+  example, ``course-v1:edX+DemoX+Demo_2014``.
+
+  **History**: In October 2014, identifiers for some new courses began to use
+  the format shown above. Other new courses, and all courses created prior to
+  October 2014, use the format ``{org}/{course}/{run}``,  for example,
+  ``MITx/6.002x/2012_Fall``.
+
+---------------------
+topic_id
+---------------------
+
+  The unique identifier for the teams topic associated with the team. Topics,
+  including an ID for each topic, are defined by course team members in
+  **Advanced Settings** in Studio.
+
+---------------------
+date_created
+---------------------
+
+  The date and time that this team was created, in the format ``YYYY-MM-DD
+  HH:MM:SS``.
+
+---------------------
+description
+---------------------
+
+  The description for the team. A team description is required when a team is
+  created.
+
+---------------------
+country
+---------------------
+
+  An optional field in a team's details. The person who creates a team can
+  specify a country that the team's members primarily identify with. Country
+  codes are ISO 3166-1 codes.
+
+---------------------
+language
+---------------------
+   
+  An optional field in a team's details. A team can specify a language that
+  the team's members primarily communicate using. Most language codes are ISO
+  639-1 codes, with the addition of codes for simplified and traditional
+  Chinese.
+
+---------------------
+discussion_topic_id
+---------------------
+
+  The identifier for all discussion topics within this team's discussions.
+
+--------------------
+last_activity_at
+--------------------
+
+  The date and time that the most recent activity on the team was recorded, in
+  the format ``YYYY-MM-DD HH:MM:SS``. The current definition of activity for
+  this field includes team creation, and the creation of posts, comments, and
+  responses in the team's discussions.
+
+
+--------------------
+team_size
+--------------------
+
+  The current count of the number of members in the team.
+
+
+.. _teams_courseteammembership:
+
+================================================
+Columns in the teams_courseteammembership Table
+================================================
+
+This table stores information about learners who are members of a team.
+
+.. note:: The Teams feature is in limited release. For more information,
+   contact your edX Partner Manager. For Open edX sites, contact your system
+   administrator.
+
+**History**: Added September 15 2015.
+
+The ``teams_courseteammembership`` table has the following columns.
+
+.. list-table::
+     :widths: 15 15 15 15
+     :header-rows: 1
+
+     * - Column
+       - Type
+       - Null
+       - Key
+     * - id
+       - int (11)
+       - NO
+       - PRI  
+     * - user_id
+       - int (11)
+       - NO
+       - UNI
+     * - team_id
+       - int (11)
+       - NO
+       - MUL
+     * - date_joined
+       - datetime
+       - NO
+       - MUL
+     * - last_activity_at
+       - datetime
+       - NO
+       - MUL
+
+---------------------
+id
+---------------------
+
+  The primary key, a database auto-increment field that uniquely identifies
+  the membership of a user on a team.
+
+---------------------
+user_id
+---------------------
+
+  The ID of a user who is currently a member of the team, from
+  ``auth_user.id``.
+
+---------------------
+team_id
+---------------------
+
+  The ID of the team, from ``teams_courseteam.id``.
+
+--------------------
+date_joined
+--------------------
+
+  The timestamp of the time that the user joined the team, in the format
+  ``YYYY-MM-DD HH:MM:SS``.
+
+--------------------
+last_activity_at
+--------------------
+
+  The date/time of the most recent activity performed by this user on this
+  team, in the format ``YYYY-MM-DD HH:MM:SS``. The current definition of
+  activity for this field is limited to discussions-related actions by this
+  user: adding or deleting posts, adding comments or responses, and voting on
+  posts. If the user has not yet participated in the team's discussion, the
+  ``last_activity_at`` date/time reflects the timestamp when the user joined
+  the team.
+
 
 .. _Courseware_Progress:
 
@@ -1227,7 +1556,7 @@ max_grade
   Another way in which ``max_grade`` can differ between entries with the same
   ``module_id`` is if the problem was modified after the ``max_grade`` was
   written and the user never went back to the problem after it was updated.
-  This might happen if a member of the course staff puts out a problem with
+  This might happen if a member of the course team puts out a problem with
   five parts, realizes that the last part doesn't make sense, and decides to
   remove it. People who saw and answered it when it had five parts and never
   came back to it after the changes had been made will have a ``max_grade`` of

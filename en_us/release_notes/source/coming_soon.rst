@@ -2,36 +2,30 @@
 Coming Soon
 ####################################
 
-The following list describes features that are currently in development and
-that edX expects to release in the near future. After these features are
-released, we will add a link to related documentation.
+This topic describes features that are in development and that edX expects to
+release in the near future. After these features are released, the release
+notes will include links to related documentation.
 
-*************
-Student Notes
-*************
+This topic also lists upcoming events for members of the edX community.
 
-A new Student Notes tool allows learners in some courses to highlight and make
-notes about text directly in the courseware. Learners can see individual notes
-in the courseware or all notes together on a new **Notes** tab in the LMS.
+*********************************
+2015 Open edX Conference
+*********************************
 
-****************
-Learner Profiles 
-****************
+Developers, system administrators, education specialists, and anyone who works
+with or wants to learn more about the Open edX platform are invited to attend
+the 2015 `Open edX Conference`_. The conference will be held October 12-13 at
+Wellesley College in Wellesley, MA (USA). `Registration`_ is now open for the
+conference.
 
-Students will be able to create profiles in which they can indicate their time
-zone, country, and language, as well as include a profile photo or avatar. In
-discussion posts, learners will be able to click other learners' profile links
-to view their profile details.
+*********************************
+Open edX Dogwood Release
+*********************************
 
-******************************
-Insights into Ungraded Content
-******************************
+The next release for Open edX, Dogwood, is scheduled for late November 2015. To
+stay up to date about the expected contents and progress of the release, refer
+to the `Open edX wiki page for Dogwood`_.
 
-Following the release of student performance data for graded assignments a few
-weeks ago, course teams will soon be able to use edX Insights to access the
-same data for ungraded exercises. The answers that students submit for
-questions in ungraded units will be available, as well as aggregated
-performance data at the section, subsection, and unit level.
 
 
 .. include:: links.rst

@@ -45,8 +45,8 @@ edX Studio
   time, you enter **YYYY-MM-DDTHH:MM**. Be sure to enter the **T** between the
   date and time.
 
-* The date and time on the **Schedule and Details** page are now shown as
-  Universal Coordinated Times (UTC). (TNL-85)
+* The date and time on the **Schedule and Details** page are now shown in 
+  Coordinated Universal Time (UTC). (TNL-85)
 
 **************************
 edX Documentation
@@ -78,7 +78,7 @@ The following documentation is available:
   
   Recent changes include:
 
-  * Added new student and instructor events relating to cohort use to the
+  * Added new student and course team events relating to cohort use to the
     `Tracking Logs`_ chapter.
 
   * Added new event member fields for data emitted from mobile devices to the
@@ -87,9 +87,9 @@ The following documentation is available:
   * Removed information about XML course formats. See the `edX Open Learning
     XML Guide`_ for information about building XML courses.
 
-* `edX Developer's Guide`_
+* `Open edX Developer's Guide`_
 
-* `edX XBlock Documentation`_
+* `Open edX XBlock API Guide`_
 
 * `Installing, Configuring, and Running the edX Platform`_  
 

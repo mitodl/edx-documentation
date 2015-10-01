@@ -59,10 +59,10 @@ All problems on the edX platform have several component parts.
 
 #. **Show Answer button.** This button is optional. When the student
    clicks **Show Answer**, the student sees both the correct answer (see 2
-   above) and the explanation (see 10 below). The instructor sets whether
+   above) and the explanation (see 10 below). You define whether
    the **Show Answer** button is visible.
 
-#. **Attempts.** The instructor may set a specific number of attempts or allow
+#. **Attempts.** You can set a specific number of attempts or allow
    unlimited attempts for a problem. By default, the course-wide **Maximum
    Attempts** advanced setting is null, meaning that the maximum number of
    attempts for problems is unlimited. If the course-wide **Maximum Attempts**
@@ -80,10 +80,10 @@ All problems on the edX platform have several component parts.
    .. image:: ../../../shared/building_and_running_chapters/Images/AnatomyofaProblem_Feedback.png
     :alt: Image of feedback checkmark and x from a student's point of view
 
-#. **Correct answer.** Most problems require that the instructor specify
+#. **Correct answer.** Most problems require that you specify
    a single correct answer.
 
-#. **Explanation.** The instructor may include an explanation that
+#. **Explanation.** You can include an explanation that
    appears when a student clicks **Show Answer**.
 
 #. **Reset button.** Students can click **Reset** to clear any input that has
@@ -99,7 +99,7 @@ All problems on the edX platform have several component parts.
    .. image:: ../../../shared/building_and_running_chapters/Images/AnatomyOfExercise3.png
     :alt: Image of a problem in the left pane
 
-#. **Grading.** The instructor may specify whether a group of problems
+#. **Grading.** You can specify whether a group of problems
    is graded. If a group of problems is graded, a clock icon appears for
    that assignment in the left pane.
 
@@ -117,11 +117,11 @@ All problems on the edX platform have several component parts.
 There are also some attributes of problems that are not immediately
 visible. You can set these attributes in Studio.
 
-*  **Randomization.** For some problems, the instructor can specify
+*  **Randomization.** For some problems, you can specify
    whether a problem will use randomly generated numbers that vary from
    student to student.
 
-*  **Weight.** Different problems in a particular problem set may be
+*  **Weight.** Different problems in a particular problem set can be
    given different weights.
 
 *  **Label.** To improve accessibility for students who have disabilities, each
@@ -150,16 +150,16 @@ following settings.
 Display Name
 ===============
 
-This setting indicates the name of your problem. The display name
-appears as a heading over the problem in the LMS and in the course
-ribbon at the top of the page. 
+This setting indicates the name of your problem. This name appears as a
+heading above the problem and as a tooltip in the learning sequence at the top
+of the **Courseware** page.
 
 .. image:: ../../../shared/building_and_running_chapters/Images/ProbComponent_LMS_DisplayName.png
  :alt: Image of the problem in a unit page from a student's point of view
 
 The display name is also used in edX Insights reports.
 
-You set the display name as an attribute of the ``problem`` element:
+You set the display name as an attribute of the ``problem`` element.
 
 .. code-block:: xml
   
@@ -181,7 +181,7 @@ problems defaults to that number, and cannot be set to unlimited.
  higher are included on the Student Answer Distribution report that you can
  download during your course.
 
-You set the maximum attempts as an attribute of the ``problem`` element:
+You set the maximum attempts as an attribute of the ``problem`` element.
 
 .. code-block:: xml
   
@@ -205,19 +205,13 @@ problem. The problem weight appears next to the problem title.
  :alt: Image of a problem from a student's point of view, with the possible 
        points circled
 
-By default, each response field, or "answer space,” in a problem
-component is worth one point. Any problem component can have multiple
-response fields. For example, the Problem component above
-contains one dropdown problem that has three separate questions for students
-to answer, and thus has three response fields.
+By default, each response field, or "answer space", in a problem component is
+worth one point. Any problem component can have multiple response fields. For
+example, the problem component above contains one dropdown problem that has
+three separate questions, and also has three response fields.
 
-The following problem component contains one text input problem,
-and has just one response field.
-
-.. image:: ../../../shared/building_and_running_chapters/Images/ProblemWeight_TI.png
- :alt: Image of a text input problem from a student's point of view
-
-You set the problem weight as an attribute of the ``problem`` element:
+You set a different component weight as an attribute of the ``problem``
+element.
 
 .. code-block:: xml
   
@@ -227,7 +221,7 @@ Computing Scores
 ****************
 
 The score that a student earns for a problem is the result of the
-following formula:
+following formula.
 
 **Score = Weight × (Correct answers / Response fields)**
 
@@ -320,7 +314,7 @@ This setting has the following options.
 +-------------------+--------------------------------------+
 
 
-You set the randomization as an attribute of the ``problem`` element:
+You set value randomization as an attribute of the ``problem`` element.
 
 .. code-block:: xml
   
@@ -392,7 +386,7 @@ This setting has the following options.
 |                   | or in the LMS.                       |
 +-------------------+--------------------------------------+
 
-You set the show answer preference as an attribute of the ``problem`` element:
+You set the show answer preference as an attribute of the ``problem`` element.
 
 .. code-block:: xml
   
@@ -416,11 +410,15 @@ This problem-level setting overrides the course-level **Show Reset Button for
 Problems** setting.
 
 You set the show reset button preference as an attribute of the ``problem``
-element:
+element.
 
 .. code-block:: xml
   
   <problem show_reset_button="true"  . . . >
+
+.. include:: ../../../shared/exercises_tools/Section_adding_hints.rst
+
+.. include:: ../../../shared/exercises_tools/Section_partial_credit.rst
 
 .. _Modifying a Released Problem:
 
@@ -436,7 +434,7 @@ After a student submits a response to a problem, the LMS stores the student's
 response, the score that the student received, and the maximum score for the
 problem. For problems with a **Maximum Attempts** setting greater than 1, the
 LMS updates these values each time the student submits a new response to a
-problem. However, if an instructor changes a problem or its attributes,
+problem. However, if you change a problem or its attributes,
 existing student information for that problem is not automatically updated.
 
 For example, you may release a problem and specify that its answer is 3.
@@ -573,6 +571,6 @@ Create Randomized Problems
          </randomize>
        </vertical>
 
-.. include:: ../../../shared/exercises_tools/adding_tooltip.rst       
+.. include:: ../../../shared/exercises_tools/Section_adding_tooltip.rst       
 
 .. include:: ../links.rst

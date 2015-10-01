@@ -31,9 +31,9 @@ edX Studio
   
   This change does not affect student-visible URLs.
 
-* In open response assessments, instructors can now create assignments that allow students to upload an image file as well as write a text response. For more information, see `Creating Peer Assessments`_.
+* In open response assessments, you can now create assignments that allow students to upload an image file as well as write a text response. For more information, see `Creating Peer Assessments`_.
 
-* In open response assessments, instructors can now create a criterion that includes a field for comments, but no options. For more information, see `Creating Peer Assessments`_.
+* In open response assessments, you can now create a criterion that includes a field for comments, but no options. For more information, see `Creating Peer Assessments`_.
 
 * In some cases, deleting a unit from a subsection caused server errors. This bug has been fixed. (STUD-1962)
 
@@ -71,13 +71,13 @@ The following documentation is available:
 
   Recent changes include: 
 
-  * The `Track Student Activity`_ section has been added to the `Student Data`_ chapter.
+  * The Track Student Activity section has been added to the `Student Data`_ chapter.
 
-* `edX Developer's Guide`_
+* `Open edX Developer's Guide`_
 
    * The link to the `Ubuntu installation instructions`_ has been updated.
 
-* `edX XBlock Documentation`_
+* `Open edX XBlock API Guide`_
 
 * `Installing, Configuring, and Running the edX Platform`_  
 

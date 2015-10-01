@@ -7,19 +7,15 @@ Student Data
 You can access data about the individuals who are enrolled in your course at
 any time after you create the course.
 
-For information about student data, see the following topics:
-
-* :ref:`PII`
-
-* :ref:`Access_student_data`
-
-* :ref:`Access_anonymized`
-  
-* :ref:`Track Student Activity`
+.. contents:: Section Contents:
+  :local:
+  :depth: 2
 
 To supplement the student data available from the Instructor Dashboard, you can
-use the charts and reports that are available from edX Insights. For more
-information, see `Using edX Insights`_.
+use the charts and reports that are available from edX Insights. With Insights,
+you can monitor student activity and review the number of students who, each
+week, interacted with your course.  For more information, see `Using edX
+Insights`_.
 
 .. _PII:
 
@@ -32,22 +28,24 @@ information that can be used to identify, contact, and locate individuals. This
 information is available to course authors for the students who are enrolled in
 their courses.
 
-Course staff should follow the policies established by their organizations
-and comply with the legal requirements of their locales to prevent public
-distribution or misuse of this information.
+Members of the course team should follow the policies established by their
+organizations and comply with the legal requirements of their locales to
+prevent public distribution or misuse of this information.
 
 .. **Question**: I just made this statement up. What guidance can/should we give, for immediate publication and in the future? (sent to Tena and Jennifer Adams 31 Jan 14)
 
 .. _Access_student_data:
 
 ****************************
-Access Student Data
+Accessing Student Data
 ****************************
 
 You can download data about the students who are currently enrolled in your
 course in a CSV (comma-separated values) file. For courses that have fewer than
 200 students enrolled, you can also view data for enrolled students on the
 Instructor Dashboard.
+
+For information about course enrollment, see :ref:`Enrollment`.
 
 ======================
 Student-Reported Data
@@ -76,12 +74,12 @@ enrolled in your course.
 * mailing_address
 * goals
 
-The student data that is available to course staff always reflects the set of
-live, current enrollments. Students can enroll in your course throughout the
-defined enrollment period, and they can unenroll from a course at any time.
+The student data that is available to course team members always reflects the
+set of live, current enrollments. Students can enroll in your course throughout
+the defined enrollment period, and they can unenroll from a course at any time.
 Students can also change their email addresses and full names at any time. As a
-result, you may want to download student data periodically to gain insights into
-how the student population changes over time.
+result, you may want to download student data periodically to gain insights
+into how the student population changes over time.
 
 .. note:: In the future, edX may also request that students select a language 
  and location. This data is not collected at this time.
@@ -108,9 +106,9 @@ For courses with fewer than 200 students enrolled, you also have the option to
 view student data on the Instructor Dashboard.
 
 .. note:: In addition to the data for enrolled students, data for the course 
- staff is included in the file or display.
+ team is included in the file or display.
 
-To download student data:
+To download student data, follow these steps.
 
 #. View the live version of your course.
 
@@ -124,7 +122,7 @@ To download student data:
   page and do other work while it runs.
 
   To track the progress of the report process, reload the page in your browser
-  and scroll down to the **Pending Instructor Tasks** section.
+  and scroll down to the **Pending Tasks** section.
 
 4. To open or save a student data report, click the
    ``{course_id}_student_profile_info_{date}.csv`` file name at the bottom of
@@ -132,7 +130,7 @@ To download student data:
 
   All student-supplied data is included in this file without truncation.
 
-To view student data:
+To view student data, follow these steps.
 
 .. note:: This option is available only for courses with an enrollment of less 
  than 200.
@@ -161,7 +159,7 @@ Cohort column with each student's assigned cohort group.
 .. _Access_anonymized:
 
 ********************************
-Access Anonymized Student IDs
+Accessing Anonymized Student IDs
 ********************************
 
 Some of the tools that are available for use with the edX platform, including
@@ -187,24 +185,9 @@ To research and deanonymize student data, you can use this file together with
 the ``{course_id}_student_profile_info_{date}.csv`` file of student data or the
 ``{course_id}_grade_report_{date}.csv`` file of grades.
 
-.. _Track Student Activity:
+.. only:: Open_edX
 
-******************************
-Track Student Activity
-******************************
-
-To monitor student activity during your course, you can review the number of
-students who, each week, interacted with your course. To be considered active,
-students must visit pages, play videos, add to discussions, submit answers to
-problems, or complete other course activities. The active student count is
-updated weekly.
-
-To display the number of active students:
-
-#. View the live version of your course.
-
-#. Click **Instructor**, then click **Analytics**. The count of active students
-   appears at the top of the page.
+    .. include:: ../../../shared/building_and_running_chapters/running_course/Section_course_student.rst
 
 
 .. _Using edX Insights: http://edx-insights.readthedocs.org/en/latest/

@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 
-edX Guide for Students
+edX Learner's Guide
 ========================================
 
 .. toctree::
@@ -13,6 +13,11 @@ edX Guide for Students
 
    front_matter/index
    SFD_introduction
+   SFD_account
+   sfd_dashboard_profile/index
+   SFD_enrolling
+   SFD_credit_courses/index
+   SFD_licensing
    SFD_video_player
    SFD_google_docs
    SFD_certificates

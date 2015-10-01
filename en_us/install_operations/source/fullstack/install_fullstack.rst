@@ -6,11 +6,11 @@
 Installing Open edX Fullstack
 ####################################
 
-This chapter is intended for those who are installing and running Open edX
-Fullstack.
+This section describes how to install the Open edX Fullstack.
 
-.. contents:: Chapter Contents:
-
+.. contents::
+   :local:
+   :depth: 1
 
 **********
 Overview
@@ -76,7 +76,8 @@ To install Open edX Fullstack directly from the command line, follow the
 instructions below.
 
 Before beginning the installation, ensure that you have your local computer's
-administrator's password. The password is needed so that NFS can be set up to allow users to access code directories directly from your computer.
+administrator's password. The password is needed so that NFS can be set up to
+allow users to access code directories directly from your computer.
 
 #. Ensure the ``nfsd`` client is running.
 
@@ -110,7 +111,7 @@ administrator's password. The password is needed so that NFS can be set up to al
    recreate the virtual machine, Vagrant re-uses the box it downloaded. See
    `Vagrant's documentation on boxes`_ for more information.
 
-#. When prompted, enter administrator password for your local computer.
+#. When prompted, enter the administrator password for your local computer.
 
 **********************************************
 Browser Login to Open edX Fullstack
@@ -118,5 +119,11 @@ Browser Login to Open edX Fullstack
 
 #. In your browser, go to Go to ``preview.localhost``, which is an alias entry
    for 192.168.33.10 that was created in your ``/etc/hosts`` file.
+   
+   The latest version of fullstack has the demo course pre-loaded and a set of
+   dummy accounts.
 
-   When prompted, enter **edx** for both username and password.
+   * staff@example.com / edx
+   * verified@example.com / edx
+   * audit@example.com / edx
+   * honor@example.com / edx

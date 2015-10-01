@@ -1,37 +1,31 @@
 .. _Tracking Logs:
 
-######################
-Tracking Logs
-######################
+############################################
+Events in the Tracking Logs
+############################################
 
-This chapter provides reference information about the event data that is
+This section provides reference information about the event data that is
 delivered in data packages. Events are emitted by the server, the browser, or
 the mobile device to capture information about interactions with the courseware
 and the Instructor Dashboard in the LMS, and are stored in JSON documents. In
 the data package, event data is delivered in a log file.
 
-The sections in this chapter describe:
+.. contents:: 
+  :local:
+  :depth: 1
 
-* A :ref:`sample_events`.
-* :ref:`common` that are included in the JSON document of every event.
-* :ref:`Student_Event_Types` for interactions with the LMS outside of the
-  Instructor Dashboard. 
-* :ref:`Instructor_Event_Types` for interactions with the Instructor Dashboard
-  in the LMS.
-
-Student and instructor events are grouped into categories in this chapter. For
-a list of events, see the :ref:`event_list`.
-
+The student and course team events are grouped into categories in this section.
+For a complete, alphabetical list of events, see the :ref:`event_list`.
 
 .. _sample_events:
 
 *************************
-Sample Event
+Reviewing a Sample Event
 *************************
 
 A sample event from an edX.log file follows. This sample was edited to remove
 personally identifiable information. Events are stored in JSON documents, which
-can be difficult to read at a glance.
+can be difficult to read before standard formatting is applied.
 
 .. code-block:: json
 
@@ -148,15 +142,23 @@ more readable is produced.
     "username": "AAAAAAAAAA"
  }
 
+For more information about fields that are included in every event, see
+:ref:`common`. For more information about this ``problem_check`` event and
+other types of events, see :ref:`Student_Event_Types` or
+:ref:`Instructor_Event_Types`.
+
 .. _common:
 
-********************
+*****************************
 Common Fields
-********************
+*****************************
 
 This section describes the JSON fields that are common to the schema
 definitions of all events. These fields are at the root level of the event
 JSON documents.
+
+This section presents the common fields in alphabetical order. Actual events
+in your data package can include these fields in different sequences.
 
 ===========================
 ``accept_language`` Field
@@ -184,39 +186,82 @@ more information, see the HTTP/1.1 header field definition for
 ``context`` Field
 ===================
 
-**Type:** dict
+**Type:** dictionary
 
 **Details:** 
 
-For all events, this field includes member fields that provide the following
-contextual information.
+The ``context`` field includes member fields that provide contextual
+information. 
 
-* The ``course_id`` of the course that generated the event.
-* The ``org_id`` of the organization that lists the course. 
-* The URL ``path`` that generated the event. 
-* The ``user_id`` of the individual who is performing the action. 
+* This field contains a core set of member fields that are common to all events.
+* For certain events with additional contextual requirements, this field
+  contains a set of additional member fields that are common to those events
+  only.
+* For any event, this field can also include one or more additional member
+  fields. For more information about the ``context`` member fields for an
+  event, see the description of that event later in this section.
 
-The following member fields are included to provide additional information
-when applicable for an event.
+``context`` Member Fields Common to All Events 
+***********************************************
 
-* ``course_user_tags`` contains a dictionary with the key(s)
-  and value(s) from the ``user_api_usercoursetag`` table for the user. See
-  :ref:`user_api_usercoursetag`.
+The following member fields are present in the ``context`` field for all events. 
 
-* ``module`` contains a dictionary that identifies the components involved in
-  a server event. For example, in a server ``problem_check`` event, the
-  problem component that the server checked successfully. The member fields of
-  this dictionary are ``display_name`` and ``usage_key``.
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
 
-  For modules that are used in a course to present content from a library,
-  this dictionary also includes the ``original_usage_key`` and
-  ``original_usage_version`` fields. These member fields provide a consistent
-  way to identify components that are sourced from a library, and can be used
-  to identify the source library.
+   * - ``context`` Member Field
+     - Type
+     - Details
+   * - ``course_id``
+     - string
+     - Identifies the course that generated the event.
+   * - ``org_id``
+     - string
+     - The organization that lists the course.
+   * - ``path``
+     - string
+     - The URL that generated the event. 
+   * - ``user_id``
+     - integer
+     - Identifies the individual who is performing the action.
 
-The member fields are blank if values cannot be determined. The ``context``
-field can also contain additional member fields that apply to specific events
-only: see the description for each type of event.
+
+``context`` Member Fields for Applicable Events
+******************************************************
+
+When applicable for an event, the ``context`` field also includes these member
+fields to provide additional information.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - ``context`` Member Field
+     - Type
+     - Details
+   * - ``course_user_tags``
+     - dictionary
+     - Contains the key(s) and value(s) from the ``user_api_usercoursetag``
+       table for the user. See :ref:`user_api_usercoursetag`.
+   * - ``module``
+     - dictionary
+     - Contains a dictionary that identifies the components involved in a
+       server event.
+
+       For example, in a server ``problem_check`` event, the ``module`` field
+       indicates the problem component that the server checked successfully.
+       The member fields of this dictionary are ``display_name`` and
+       ``usage_key``.
+
+       For modules that are used in a course to present content from a
+       library, this dictionary also includes the ``original_usage_key`` and
+       ``original_usage_version`` fields. These member fields provide a
+       consistent way to identify components that are sourced from a library,
+       and can be used to identify the source library.
+
+
+The ``context`` member fields are blank if values cannot be determined. 
 
 **History**: ``usage_key`` added 28 Jan 2015. ``path`` added 07 May 2014.
 ``course_user_tags`` added 12 Mar 2014. ``user_id`` added 6 Nov 2013. Other
@@ -226,11 +271,12 @@ event fields may duplicate this data. Added 23 Oct 2013.
 ``event`` Field
 ===================
 
-**Type:** dict
+**Type:** dictionary
 
 **Details:** This field includes member fields that identify specifics of each
-triggered event. Different member fields are supplied for different events: see
-the description for each type of event.
+triggered event. Different member fields are supplied for different events.
+For more information about the ``event`` member fields for an event, see the
+description of that event later in this section.
 
 ========================
 ``event_source`` Field
@@ -257,8 +303,8 @@ devices.
 
 **Details:** The type of event triggered. Values depend on ``event_source``.
 
-The :ref:`Student_Event_Types` and :ref:`Instructor_Event_Types` sections in
-this chapter provide descriptions of each type of event that is included in
+:ref:`Student_Event_Types` and :ref:`Instructor_Event_Types` later in this 
+section provide descriptions of each type of event that is included in 
 data packages. To locate information about a specific event type, see the
 :ref:`event_list`.
 
@@ -268,7 +314,7 @@ data packages. To locate information about a specific event type, see the
 
 **Type:** string
 
-**Details:** The site visited by the user, for example, courses.edx.org.
+**Details:** The site visited by the user, for example, ``courses.edx.org``.
 
 ===================
 ``ip`` Field
@@ -349,37 +395,20 @@ string is empty for anonymous events, such as when the user is not logged in.
 Student Events
 ****************************************
 
-This section lists the events that are logged for interactions with the LMS
-outside the Instructor Dashboard.
+This section lists the events that are typically initiated by learners. These
+events are generated by interactions with the learning management system (LMS)
+other than the Instructor Dashboard.
 
-* :ref:`enrollment`
+.. contents::  
+  :local:
+  :depth: 1
 
-* :ref:`navigational`
-
-* :ref:`video`
-
-* :ref:`pdf`
-
-* :ref:`problem`
-
-* :ref:`library_events`
-
-* :ref:`forum_events`
-
-* :ref:`ora2`
-
-* :ref:`content`
-
-* :ref:`AB_Event_Types`
-
-* :ref:`student_cohort_events`
-
-* :ref:`ora`
 
 The descriptions that follow include what each event represents, the system
-component it originates from, the history of any changes made to the event over
-time, and any additional member fields that the ``context`` and ``event``
-fields contain.
+component it originates from, the history of any changes made to the event
+over time, and any additional member fields that the common ``context`` or
+``event`` fields contain. For more information about the common ``context`` or
+``event`` fields, see :ref:`common`.
 
 The value in the ``event_source`` field (see the :ref:`common` section above)
 distinguishes between events that originate in the browser (in JavaScript) and
@@ -390,6 +419,14 @@ events that originate on the server (during the processing of a request).
 =========================
 Enrollment Events
 =========================
+
+This section includes descriptions of the following events. 
+
+* ``edx.course.enrollment.activated`` 
+* ``edx.course.enrollment.deactivated``
+* ``edx.course.enrollment.mode_changed``
+* ``edx.course.enrollment.upgrade.clicked``
+* ``edx.course.enrollment.upgrade.succeeded``
 
 ``edx.course.enrollment.activated`` and ``edx.course.enrollment.deactivated``
 *****************************************************************************
@@ -407,7 +444,7 @@ activities completed by a student.
   clicks **Unenroll** for a course on the edx.org site, the server emits this
   event.
 
-In addition, actions by instructors and course staff members also generate
+In addition, actions by course team members also generate
 enrollment events. For the actions that members of the course team complete
 that result in these events, see :ref:`instructor_enrollment`.
 
@@ -519,6 +556,9 @@ event when a student clicks this option, and the process of upgrading the
 
 ``context`` **Member Fields**: 
 
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``context`` member field.
+
 .. list-table::
    :widths: 15 15 60
    :header-rows: 1
@@ -546,6 +586,9 @@ complete.
 
 ``context`` **Member Fields**: 
 
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``context`` member field.
+
 .. list-table::
    :widths: 15 15 60
    :header-rows: 1
@@ -565,7 +608,27 @@ complete.
 Navigational Events 
 ==============================
 
-.. display_spec.coffee
+This section includes descriptions of the following events. 
+
+* ``page_close``
+* ``seq_goto``
+* ``seq_next``
+* ``seq_prev``
+
+``page_close``
+**************
+
+The ``page_close`` event originates from within the JavaScript Logger itself.
+
+**Component**: JavaScript Logger
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: None
+
+
+``seq_goto``, ``seq_next``, and ``seq_prev``
+********************************************
 
 The browser emits these events when a user selects a navigational control. 
 
@@ -578,13 +641,11 @@ The browser emits these events when a user selects a navigational control.
 
 **Component**: Sequence 
 
-.. **Question:** what does a "sequence" correspond to in Studio? a subsection?
-
 **Event Source**: Browser
 
 ``event`` **Member Fields**: 
 
-All of the navigational events add the same fields to the ``event`` dict field.
+All of these navigational events have the same ``event`` member fields.
 
 .. list-table::
    :widths: 15 15 60
@@ -611,26 +672,31 @@ All of the navigational events add the same fields to the ``event`` dict field.
        away from.
 
 
-``page_close``
-**************
-
-An additional type of event, ``page_close``, originates from within the
-JavaScript Logger itself.
-
-**Component**: JavaScript Logger
-
-**Event Source**: Browser
-
-``event`` **Member Fields**: None
-
 .. _video:
 
 ==================================
 Video Interaction Events
 ==================================
 
-A browser or the edX mobile app emits these events when a user interacts with
-a video. 
+This section includes descriptions of the following events. Due to a naming
+convention change, many of these events have two identifying names. In this
+list, the original name, which is present in the ``event_type`` field for all
+events, is followed by a newer, revised name. The revised name is present in
+the ``name`` field only for events that have an ``event_source`` of 'mobile'.
+
+* ``hide_transcript``/``edx.video.transcript.hidden``
+* ``load_video``/``edx.video.loaded``
+* ``pause_video``/``edx.video.paused``
+* ``play_video``/``edx.video.played``
+* ``seek_video``/``edx.video.position.changed``
+* ``show_transcript``/``edx.video.transcript.shown``
+* ``speed_change_video`` 
+* ``stop_video``/``edx.video.stopped``
+* ``video_hide_cc_menu``
+* ``video_show_cc_menu``
+
+A browser or the edX mobile app emits video interaction events when a user
+interacts with a video.
 
 * When users use a browser to stream video files on a desktop computer or
   mobile device, the browser emits the events.
@@ -645,18 +711,18 @@ a video.
   ``context.received_at`` field. Data packages can include events emitted on
   past dates.
 
-The ``event_type`` field contains the identifying name of each event. Video
-interaction events that have an ``event_source`` of 'mobile' also have a
-``name`` field.
-
 This section presents the video interaction events alphabetically. Typically,
-an interaction with the video player begins with a :ref:`play_video` event.
+an interaction with the video player begins with a :ref:`play_video` event. 
+
+For courses that include a pre-roll video, user interactions with the pre-roll
+video result in different events. For more information, see :ref:`pre-roll`.
 
 **Component**: Video
 
 **History**: The edX mobile app for iOS began to emit a subset of the video
 events on 25 Feb 2015. The edX mobile app for Android began to emit a subset
 of the video events on 23 Dec 2014.
+
 
 ``hide_transcript``/``edx.video.transcript.hidden``
 ***************************************************
@@ -677,10 +743,11 @@ app for Android.
 ``context`` **Member Fields**: 
 
 Only video interaction events with an ``event_source`` of 'mobile' include
-additional ``context`` member fields. The same set of additional context
-fields are added for ``hide_transcript``/ ``edx.video.transcript.hidden``
-events as for the :ref:`play_video` events. For an example of an event with
-these fields, see :ref:`Example Mobile App Event`.
+additional ``context`` member fields in addition to the :ref:`common<context>`
+member fields. The same set of additional context fields are added for
+``hide_transcript``/ ``edx.video.transcript.hidden`` events as for the
+:ref:`play_video` events. For an example of an event with these fields, see
+:ref:`Example Mobile App Event`.
 
 ``event`` **Member Fields**: 
 
@@ -690,7 +757,7 @@ events of this type as for the :ref:`play_video` events.
 
 * ``code``
 * ``currentTime``: The point in the video file at which the transcript was
-  hidden, in seconds.
+  hidden.
 * ``id``
 
 ``load_video``/``edx.video.loaded``
@@ -712,9 +779,10 @@ app for Android.
 ``context`` **Member Fields**: 
 
 Only video interaction events with an ``event_source`` of 'mobile' include
-additional ``context`` member fields. The same set of additional context
-fields are added for ``load_video`` events as for :ref:`play_video`. For an
-example of an event with these fields, see
+additional ``context`` member fields in addition to the :ref:`common<context>`
+member fields. The same set of additional context fields are added for
+``load_video`` events as for :ref:`play_video`. For an example of an event
+with these fields, see
 :ref:`Example Mobile App Event`.
 
 ``event`` **Member Fields**: 
@@ -730,10 +798,22 @@ for the :ref:`play_video` events.
 *************************************
 
 When a user selects the video player's **pause** control, the player emits a
-``pause_video`` event. The player also emits this event when it reaches the
-end of the video file and play automatically stops. Note that as of June 2014,
-the player also emits a ``stop_video`` event when it reaches the end of the
-video file and play automatically stops.
+``pause_video`` event. For videos that are streamed in a browser, when the
+player reaches the end of the video file and play automatically stops it emits
+both this event and a ``stop_video`` event (as of June 2014).
+
+Note that course teams can specify a **Video Stop Time** for video files. 
+
+* If the user streams a video file in a browser and a **Video Stop Time** is
+  present for the video, the player stops at the specified time and emits the
+  ``pause_video`` and ``stop_video`` events.
+
+* If the user plays a streaming or downloaded video in the edX mobile app, the
+  app ignores the **Video Stop Time** and plays the file to its end. The app
+  then emits only the ``stop_video`` event.
+
+For more information, see `Working with Video Components`_ in the *Building
+and Running an edX Course* guide.
 
 In addition to the identifying ``event_type`` of ``pause_video``, the events
 that the edX mobile app emits include a ``name`` field with a value of
@@ -741,15 +821,19 @@ that the edX mobile app emits include a ``name`` field with a value of
 
 **Event Source**: Browser or Mobile
 
-**History**: Updated 25 Feb 2015 to include events emitted by the edX mobile
-app for iOS. Updated 23 Dec 2014 to include events emitted by the edX mobile
-app for Android. 
+**History**: 
+
+* Updated 5 May 2015 to include the effect of a **Video Stop Time**. 
+* Updated 25 Feb 2015 to include events emitted by the edX mobile app for iOS.
+* Updated 23 Dec 2014 to include events emitted by the edX mobile app for
+  Android.
 
 ``context`` **Member Fields**: 
 
 Only video interaction events with an ``event_source`` of 'mobile' include
-additional ``context`` member fields. The same set of additional context
-fields are added for ``pause_video``/ ``edx.video.paused`` events as for
+additional ``context`` member fields in addition to the :ref:`common<context>`
+member fields. The same set of additional context fields are added for
+``pause_video``/ ``edx.video.paused`` events as for
 :ref:`play_video`. For an example of an event with these fields, see
 :ref:`Example Mobile App Event`.
 
@@ -760,8 +844,7 @@ The ``pause_video``/``edx.video.paused`` events include the following
 this type as for the :ref:`play_video` events.
 
 * ``code``
-* ``currentTime``: The time in the video at which the video paused, in
-  seconds.
+* ``currentTime``: The time in the video at which the video paused.
 * ``id``
 
 .. _play_video:
@@ -772,22 +855,39 @@ this type as for the :ref:`play_video` events.
 When a user selects the video player's **play** control, the player emits a
 ``play_video`` event.
 
+Note that course teams can specify a **Video Start Time** for video files. 
+
+* If the user streams a video file in a browser and a **Video Start Time** is
+  present for the video, the player starts at the specified time and emits the
+  ``play_video`` event.
+
+* If the user plays a streaming or downloaded video in the edX mobile app, the
+  app ignores the **Video Start Time** and emits the ``play_video`` event
+  when it plays the file from the beginning.
+
+For more information, see `Working with Video Components`_ in the *Building
+and Running an edX Course* guide.
+
 In addition to the identifying ``event_type`` of ``play_video``, events
 that the edX mobile app emits also include a ``name`` field with a value of
 ``edx.video.played``.
 
 **Event Source**: Browser or Mobile
 
-**History**: Updated 25 Feb 2015 to include events emitted by the edX mobile
-app for iOS. Updated 23 Dec 2014 to include events emitted by the edX mobile
-app for Android.
+**History**: 
+
+* Updated 5 May 2015 to include the effect of a **Video Start Time**. 
+* Updated 25 Feb 2015 to include events emitted by the edX mobile app for iOS.
+* Updated 23 Dec 2014 to include events emitted by the edX mobile app for
+  Android.
 
 ``context`` **Member Fields**: 
 
 Only video interaction events with an ``event_source`` of 'mobile' include
-additional ``context`` member fields. Other video interaction events with an
-``event_source`` of mobile also include these fields. For an example of an
-event with these fields, see :ref:`Example Mobile App Event`.
+additional ``context`` member fields in addition to the :ref:`common<context>`
+member fields. Other video interaction events with an ``event_source`` of
+mobile also include these fields. For an example of an event with these
+fields, see :ref:`Example Mobile App Event`.
 
 .. list-table::
    :widths: 15 15 60
@@ -845,7 +945,7 @@ event with these fields, see :ref:`Example Mobile App Event`.
 
    * - ``currentTime``
      - float
-     - The time in the video at which the video was played, in seconds. 
+     - The time in the video at which the event was emitted. 
    * - ``id``
      - string
      - The optional name value supplied by the course creators, or the system-
@@ -996,9 +1096,10 @@ events that the edX mobile app emits include the value
 ``context`` **Member Fields**: 
 
 Only video interaction events with an ``event_source`` of 'mobile' include
-additional ``context`` member fields. The same set of additional context
-fields are added for ``seek_video``/ ``edx.video.position.changed`` events as
-for :ref:`play_video`. For an example of an event with these fields, see
+additional ``context`` member fields in addition to the :ref:`common<context>`
+member fields. The same set of additional context fields are added for
+``seek_video``/ ``edx.video.position.changed`` events as for
+:ref:`play_video`. For an example of an event with these fields, see
 :ref:`Example Mobile App Event`.
 
 ``event`` **Member Fields**: 
@@ -1064,9 +1165,10 @@ app for Android.
 ``context`` **Member Fields**: 
 
 Only video interaction events with an ``event_source`` of 'mobile' include
-additional ``context`` member fields. The same set of additional context
-fields are added for ``show_transcript``/ ``edx.video.transcript.shown`` events
-as for :ref:`play_video`. For an example of an event with these fields, see
+additional ``context`` member fields in addition to the :ref:`common<context>`
+member fields. The same set of additional context fields are added for
+``show_transcript``/ ``edx.video.transcript.shown`` events as for
+:ref:`play_video`. For an example of an event with these fields, see
 :ref:`Example Mobile App Event`.
 
 ``event`` **Member Fields**: 
@@ -1077,7 +1179,7 @@ events of this type as for the :ref:`play_video` events.
 
 * ``code``
 * ``currentTime``: The point in the video file at which the transcript was
-  opened, in seconds.
+  opened.
 * ``id``
 
 ``speed_change_video`` 
@@ -1104,11 +1206,11 @@ selected either the same speed or a different speed.
      - integer
      - The time in the video that the user chose to change the playing speed. 
    * - ``new_speed``
-     - 
+     - float
      - The speed that the user selected for the video to play: '0.75', '1.0',
        '1.25', '1.50'.
    * - ``old_speed``
-     - 
+     - float
      - The speed at which the video was playing. 
 
 ``stop_video``/``edx.video.stopped``
@@ -1117,21 +1219,39 @@ selected either the same speed or a different speed.
 When the video player reaches the end of the video file and play automatically
 stops, the player emits a ``stop_video`` event.
 
+Note that course teams can specify a **Video Stop Time** for video files. 
+
+* If the user streams a video file in a browser and a **Video Stop Time** is
+  present for the video, the player stops at the specified time and emits the
+  ``pause_video`` and ``stop_video`` events.
+
+* If the user plays a streaming or downloaded video in edX mobile app, the
+  app ignores the **Video Stop Time** and plays the file to its end. The
+  app then emits the ``stop_video`` event.
+
+For more information, see `Working with Video Components`_ in the *Building
+and Running an edX Course* guide.
+
 In addition to the identifying ``event_type`` of ``stop_video``, the events
 that the edX mobile app emits include a ``name`` field with a value of
 ``edx.video.stopped``.
 
 **Event Source**: Browser or Mobile
 
-**History**: Updated 25 Feb 2015 to include events emitted by the edX mobile
-app for iOS. Updated 23 Dec 2014 to include events emitted by the edX mobile
-app for Android. Added 25 June 2014.
+**History**: 
+
+* Updated 5 May 2015 to include the effect of a **Video Stop Time**. 
+* Updated 25 Feb 2015 to include events emitted by the edX mobile app for iOS.
+* Updated 23 Dec 2014 to include events emitted by the edX mobile app for
+  Android.
+* Added 25 June 2014.
 
 ``context`` **Member Fields**: 
 
 Only video interaction events with an ``event_source`` of 'mobile' include
-additional ``context`` member fields. The same set of additional context
-fields are added for ``stop_video``/ ``edx.video.stopped`` events as for
+additional ``context`` member fields in addition to the :ref:`common<context>`
+member fields. The same set of additional context fields are added for
+``stop_video``/ ``edx.video.stopped`` events as for
 :ref:`play_video`. For an example of an event with these fields, see
 :ref:`Example Mobile App Event`.
 
@@ -1142,8 +1262,309 @@ The ``stop_video``/``edx.video.stopped`` events include the following
 this type as for the :ref:`play_video` events.
 
 * ``code``
-* ``currentTime``: The time in the video at which play stopped, in seconds.
+* ``currentTime``: The time in the video at which play stopped.
 * ``id``
+
+
+``video_hide_cc_menu``
+************************************************
+
+When a user selects a language from the **CC** menu for a video that
+has transcripts in multiple languages, the browser emits a
+``video_hide_cc_menu`` event.
+
+**Event Source**: Browser
+
+**History**: Added 17 Feb 2015. 
+
+``event`` **Member Fields**: 
+
+The ``video_hide_cc_menu`` events include the following ``event`` member
+fields. These fields serve the same purpose for events of this type as for
+:ref:`play_video`.
+
+* ``code``
+* ``id``
+
+``video_show_cc_menu``
+************************************************
+
+When a user selects **CC** for a video that has transcripts in multiple
+languages, the browser emits a ``video_show_cc_menu`` event. This event is
+emitted in addition to the ``show_transcript`` event.
+
+**Event Source**: Browser
+
+**History**: Added 17 Feb 2015. 
+
+``event`` **Member Fields**: 
+
+The ``video_show_cc_menu`` events include the following ``event`` member
+fields. These fields serve the same purpose for events of this type as for
+:ref:`play_video`.
+
+* ``code``
+* ``id``
+
+
+.. _pre-roll:
+
+==================================
+Pre-Roll Video Interaction Events
+==================================
+
+Course teams can create a short video message and configure it to play
+automatically before the videos in a course. 
+
+* The pre-roll video plays on an infrequent schedule of once per user per week.
+
+* Only courses that run on the edx.org website can include a pre-roll video.
+
+* The edX mobile applications do not play pre-roll videos.
+
+When a user interacts with the pre-roll video, different events are emitted
+than for the other videos in the course. This section presents the pre-roll
+video events alphabetically.
+
+For more information about pre-roll videos, see `Adding a Pre-Roll Video to
+Your edX Course`_ in the *Building and Running an edX Course* guide.
+
+**Component**: Video
+
+**History**: Added 10 Jun 2015.
+
+``edx.video.bumper.dismissed``
+*******************************
+
+A browser emits this event when a user selects **Do not show again** for a 
+pre-roll video. This option allows the user to opt out of viewing the course 
+pre-roll video in the future.
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+The ``edx.video.bumper.dismissed`` events include the following ``event``
+member fields. These fields serve the same purpose for events of this type as
+for the :ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``currentTime``
+* ``duration``
+* ``host_component_id``
+
+``edx.video.bumper.loaded``
+****************************
+
+When the pre-roll video is fully rendered and ready to play, the browser emits
+an ``edx.video.bumper.loaded`` event.
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+The ``edx.video.bumper.loaded`` events include the following ``event``
+member fields. These fields serve the same purpose for events of this type as
+for the :ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``duration``
+* ``host_component_id``
+
+.. _edx.video.bumper.played:
+
+``edx.video.bumper.played``
+****************************
+
+When a user selects the **play** control in the video player for a pre-roll
+video, the browser emits an ``edx.video.bumper.played`` event.
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``bumper_id``
+     - string
+     - The escaped URL identifying the location of the pre-roll video that
+       played.
+   * - ``code``
+     - string
+     - Contains the value 'html5'. All pre-roll videos are non-YouTube videos. 
+   * - ``currentTime``
+     - float
+     - The time in the file at which the video played. 
+   * - ``duration``
+     - integer
+     - The length of the video file, in seconds. 
+   * - ``host_component_id``
+     - string
+     - Identifier for the video component that the user selected, and that is
+       queued to play after the pre-roll video.
+
+Example: ``edx.video.bumper.played`` Event 
+**********************************************
+
+.. code-block:: json
+
+  {
+    "username": "honor",
+    "event_source": "browser",
+    "name": "edx.video.bumper.played",
+    "accept_language": "en-US,en;q=0.5",
+    "time": "2015-05-26T18:22:07.684172+00:00",
+    "agent": "Mozilla\/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko\/20100101 Firefox\/37.0",
+    "page": "http:\/\/edx.org\/courses\/edX\/DemoX.1\/2015\/courseware\/0af8db2309474971bfa70cda98668a30\/ec3364075f2845baa625bfecd5970410\/",
+    "host": "precise64",
+    "session": "feae6efa342b309e776d388b16da89a6",
+    "referer": "http:\/\/localhost:8001\/container\/i4x:\/\/edX\/DemoX\/vertical\/69dedd38233a46fc89e4d7b5e8da1bf4?action=new",
+    "context": {
+      "user_id": 7911,
+      "org_id": "edX",
+      "course_id": "edX\/DemoX.1\/2015",
+      "path": "\/event"
+    },
+    "ip": "123.0.0.1",
+    "event": "{\"duration\": 10, \"bumper_id\": \"http:\/\/www.w3schools.com\/html\/mov_bbb.webm\", \"code\": \"html5\", \"currentTime\": 0, \"host_component_id\": \"i4x-edX-DemoX_1-video-4e2eeecf597040e3b5e1a27600bc8ddc\"}",
+    "event_type": "edx.video.bumper.played"
+  }
+
+
+``edx.video.bumper.skipped`` 
+*********************************
+
+A browser emits this event when a user selects **Skip** for a bumper video.
+This option allows the user to advance past the pre-roll video and begin to
+play the selected video immediately.
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+The ``edx.video.bumper.skipped`` events include the following ``event`` member
+fields. These fields serve the same purpose for events of this type as for the
+:ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``currentTime``: The point in the file at which the pre-roll video was
+  skipped.
+* ``duration``
+* ``host_component_id``
+
+``edx.video.bumper.stopped``
+****************************
+
+A browser emits this event when the video player reaches the end of the pre-
+roll video file and play automatically stops.
+
+This is the only event that is emitted when a user pauses a pre-roll video. 
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+The ``edx.video.bumper.stopped`` events include the following ``event`` member
+fields. These fields serve the same purpose for events of this type as for the
+:ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``currentTime``: The point in the file at which the pre-roll video was
+  stopped.
+* ``duration``
+* ``host_component_id``
+
+``edx.video.bumper.transcript.hidden``
+**************************************
+
+When a user selects **CC** to suppress display of the transcript for a pre-roll
+video, the browser emits a ``edx.video.bumper.transcript.hidden`` event.
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+The ``edx.video.bumper.transcript.hidden`` events include the following
+``event`` member fields. These fields serve the same purpose for events of this
+type as for the :ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``currentTime``: The point in the file at which the transcript was hidden.
+* ``duration``
+* ``host_component_id``
+
+``edx.video.bumper.transcript.menu.hidden``
+************************************************
+
+When a user selects a language from the **CC** menu for a pre-roll video that
+has transcripts in multiple languages, the browser emits an
+``edx.video.bumper.transcript.menu.hidden`` event.
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+The ``edx.video.bumper.transcript.menu.hidden`` events include the following
+``event`` member fields. These fields serve the same purpose for events of this
+type as for the :ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``currentTime``: The point in the file at which the language was selected and
+  the transcript menu was hidden.
+* ``duration``
+* ``host_component_id``
+
+``edx.video.bumper.transcript.menu.shown``
+************************************************
+
+When a user selects **CC** for a pre-roll video that has transcripts in
+multiple languages, the browser emits an
+``edx.video.bumper.transcript.menu.shown`` event. This event is emitted in
+addition to the ``edx.video.bumper.transcript.shown`` event.
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+The ``edx.video.bumper.transcript.menu.shown`` events include the following
+``event`` member fields. These fields serve the same purpose for events of this
+type as for the :ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``currentTime``: The point in the file at which the transcript menu was
+  shown.
+* ``duration``
+* ``host_component_id``
+
+``edx.video.bumper.transcript.shown``
+**************************************
+
+When a user selects **CC** to display the transcript for a pre-roll video, the
+browser emits a ``edx.video.bumper.transcript.shown`` event. If the video has
+more than one transcript file, the ``edx.video.bumper.transcript.menu.shown``
+event is also emitted.
+
+The ``edx.video.bumper.transcript.shown`` events include the following
+``event`` member fields. These fields serve the same purpose for events of this
+type as for the :ref:`edx.video.bumper.played` events.
+
+* ``bumper_id``
+* ``code``
+* ``currentTime``: The point in the file at which the transcript was shown.
+* ``duration``
+* ``host_component_id``
 
 .. _pdf:
 
@@ -1151,7 +1572,22 @@ this type as for the :ref:`play_video` events.
 Textbook Interaction Events   
 =================================
 
-.. pdf-analytics.js
+This section includes descriptions of the following events. 
+
+* ``book``
+* ``textbook.pdf.thumbnails.toggled``
+* ``textbook.pdf.thumbnail.navigated``
+* ``textbook.pdf.outline.toggled``
+* ``textbook.pdf.chapter.navigated``
+* ``textbook.pdf.page.navigated``
+* ``textbook.pdf.zoom.buttons.changed``
+* ``textbook.pdf.zoom.menu.changed``
+* ``textbook.pdf.display.scaled``
+* ``textbook.pdf.display.scrolled``
+* ``textbook.pdf.search.executed``
+* ``textbook.pdf.search.navigatednext``
+* ``textbook.pdf.search.highlight.toggled``
+* ``textbook.pdf.search.casesensitivity.toggled``
 
 ``book``
 *********************************
@@ -1728,11 +2164,128 @@ user selects or clears the **Match Case** option for a search.
 Problem Interaction Events 
 =================================
 
-.. lms-modules.js These events are Capa Module
+This section includes descriptions of the following events. 
+
+.. contents:: Section Contents
+  :local:
+  :depth: 1
 
 Problem interaction events are emitted by the server or the browser to capture
-information about interactions with problems, specifically, problems defined in
-the edX Capa module.
+information about interactions with problems. 
+
+These events were designed for the problem types implemented in the edX
+platform by the ``capa_module.py`` XBlock. Problem types that are implemented
+by other XBlocks, such as :ref:`open response assessments<ora2>` or :ref:`polls
+and surveys<Poll and Survey Events>`, are instrumented with different events.
+
+For more information about designing problems to include hints, feedback, or
+both, see `Adding Hints and Feedback to a Problem`_ in the *Building and
+Running an edX Course* guide.
+
+``edx.problem.hint.demandhint_displayed``
+******************************************
+
+Course teams can design problems to include one or more hints. For problems
+that include hints, the server emits an
+``edx.problem.hint.demandhint_displayed`` event each time a user requests a
+hint.
+
+**Event Source**: Server
+
+**History**: This event was added on 1 Jul 2015.
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``hint_index``
+     - integer
+     - Identifier for the hint that was displayed to the user. The first hint
+       defined for a problem is identified with ``hint_index: 0``.
+   * - ``hint_len``
+     - integer
+     - The total number of hints defined for this problem. 
+   * - ``hint_text``
+     - string
+     - The text of the hint that was displayed to the user.
+   * - ``module_id``
+     - string
+     - Identifier for the problem component for which the user requested the
+       hint.
+
+``edx.problem.hint.feedback_displayed``
+*****************************************
+
+Course teams can design problems to include feedback messages that appear after
+a user submits an answer. For problems that include feedback messages, the
+server emits an ``edx.problem.hint.feedback_displayed`` event each time a user
+selects **Check**.
+
+**Event Source**: Server
+
+**History**: This event was added on 1 Jul 2015.
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``choice_all``
+     - array
+     - For problems that have a set of possible answers defined, such as
+       checkbox problems, lists all of the answer choices.
+   * - ``correctness``
+     - Boolean
+     - 'True' if the ``student_answer`` response is correct. 'False' if the
+       ``student_answer`` is incorrect.
+   * - ``hint_label``
+     - string
+     - The optional label, such as 'Correct: ' or 'Incorrect: ', provided for
+       the feedback message.
+   * - ``hints``
+     - array
+     - Contains a ``text`` member field with the feedback string that was
+       displayed to the user. For some problem types, such as checkbox
+       problems, feedback can be provided for more than one answer at a time,
+       including both correct and incorrect answers. A separate ``text`` member
+       field is included for each feedback message that was displayed.
+   * - ``module_id``
+     - string
+     - Identifier for the problem component for which the user received the
+       feedback.
+   * - ``problem_part_id``
+     - string
+     - For problem components that contain more than one problem, identifies
+       the specific problem for which the user received feedback.
+   * - ``question_type``
+     - string
+     - The XML tag that identifies the problem type. For example,
+       'stringresponse' for a text input problem.
+   * - ``student_answer``
+     - array
+     - The answer value selected or supplied by the user. For problem types
+       that accept multiple answers, such as checkbox problems, every response,
+       including both selected and unselected options, is included.
+   * - ``trigger_type``
+     - string
+     - Identifies the type of feedback elicited by the ``student_answer``
+       response. For checkbox problems only, course teams can design 'compound'
+       feedback that is provided when a user's response matches an exact set of
+       correct and incorrect selections across all of the available choices.
+       All other types of feedback are identified as 'single'.
+
+       For more information, see `Adding Hints and Feedback to a Problem`_ in
+       the *Building and Running an edX Course* guide.
+
 
 ``problem_check`` (Browser)
 *********************************
@@ -1772,20 +2325,8 @@ checked.
 
 ``context`` **Member Fields**: 
 
-.. list-table::
-   :widths: 15 15 60
-   :header-rows: 1
-
-   * - Field
-     - Type
-     - Details
-   * - ``module``
-     - dict
-     - Provides the specific problem component as part of the context. 
-       
-       Contains the member field ``display_name``, which is the string value
-       for the **Display Name** given to the problem component.
-
+This event type includes the :ref:`common<context>` ``context.module`` member
+field.
 
 ``event`` **Member Fields**: 
 
@@ -1797,25 +2338,26 @@ checked.
      - Type
      - Details
    * - ``answers``
-     - dict
-     - The problem ID and the internal answer identifier in a name:value pair.
+     - dictionary
+     - The problem ID and the internal answer identifier in a name/value pair.
        For a component with multiple problems, lists every problem and
        answer.
    * - ``attempts``
      - integer
      - The number of times the user attempted to answer the problem.
    * - ``correct_map``
-     - dict
+     - dictionary
      - For each problem ID value listed by ``answers``, provides:
        
        * ``correctness``: string; 'correct', 'incorrect'
-       * ``hint``: string; Gives optional hint. Nulls allowed. 
-       * ``hintmode``: string; None, 'on_request', 'always'. Nulls allowed. 
+       * ``hint``: string; Gives optional hint. Nulls allowed.
+       * ``hintmode``: string; None, 'on_request', 'always'. Nulls allowed.
        * ``msg``: string; Gives extra message response.
-       * ``npoints``: integer; Points awarded for this ``answer_id``. Nulls allowed.
-       * ``queuestate``: dict; None when not queued, else ``{key:'', time:''}``
-         where ``key`` is a secret string dump of a DateTime object in the form
-         '%Y%m%d%H%M%S'. Nulls allowed. 
+       * ``npoints``: integer; Points awarded for this ``answer_id``. Nulls
+         allowed.
+       * ``queuestate``: dictionary; None when not queued, else ``{key:'',
+         time:''}`` where ``key`` is a secret string dump of a DateTime object
+         in the form '%Y%m%d%H%M%S'. Nulls allowed.
 
    * - ``grade``
      - integer
@@ -1827,7 +2369,7 @@ checked.
      - string
      - ID of the problem that was checked.
    * - ``state``
-     - dict
+     - dictionary
      - Current problem state.
    * - ``submission``
      - object
@@ -1878,7 +2420,7 @@ successfully.
      - Type
      - Details
    * - ``answers`` 
-     - dict
+     - dictionary
      - 
    * - ``failure`` 
      - string
@@ -1887,18 +2429,16 @@ successfully.
      - string
      - ID of the problem being checked.
    * - ``state``  
-     - dict
+     - dictionary
      - Current problem state.
 
-``problem_reset``
+``problem_graded``
 *********************************
 
-The browser emits ``problem_reset`` events when a user clicks **Reset** to
-reset the answer to a problem.
+.. return Logger.log('problem_graded', [_this.answers, response.contents], _this.id);
 
-.. return Logger.log('problem_reset', [_this.answers, response.contents], _this.id);
-
-**Event Source**: Browser
+The server emits a ``problem_graded`` event each time a user clicks **Check**
+for a problem and it is graded successfully.
 
 ``event`` **Member Fields**: 
 
@@ -1909,9 +2449,17 @@ reset the answer to a problem.
    * - Field
      - Type
      - Details
-   * - ``answers``
-     - string
-     - The value reset by the user. 
+   * - ``[answers, contents]``
+     - array
+     - ``answers`` provides the value checked by the user. 
+       
+       ``contents`` delivers HTML using data entered for the problem in Studio,
+       including the display name, problem text, and choices or response field
+       labels.
+
+       The array includes each problem in a problem component that has multiple
+       problems.
+
 
 ``problem_rescore``
 *********************************
@@ -1936,7 +2484,7 @@ rescored.
      - integer
      - 
    * - ``correct_map``
-     - dict
+     - dictionary
      - See the fields for the ``problem_check`` server event above.
    * - ``new_score`` 
      - integer
@@ -1954,7 +2502,7 @@ rescored.
      - string
      - ID of the problem being rescored.
    * - ``state``
-     - dict
+     - dictionary
      - Current problem state.
    * - ``success``
      - string
@@ -1986,8 +2534,33 @@ successfully rescored.
      - string
      - ID of the problem being checked.
    * - ``state``
-     - dict
+     - dictionary
      - Current problem state. 
+
+
+``problem_reset``
+*********************************
+
+The browser emits ``problem_reset`` events when a user clicks **Reset** to
+reset the answer to a problem.
+
+.. return Logger.log('problem_reset', [_this.answers, response.contents], _this.id);
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``answers``
+     - string
+     - The value reset by the user. 
+
 
 ``problem_save``
 *********************************
@@ -2060,10 +2633,10 @@ successfully.
      - Type
      - Details
    * - ``new_state``
-     - dict
+     - dictionary
      - New problem state.  
    * - ``old_state``
-     - dict
+     - dictionary
      - The state of the problem before the reset was performed. 
    * - ``problem_id``
      - string
@@ -2092,11 +2665,72 @@ successfully.
      - string
      - 'closed', 'not_done'
    * - ``old_state``
-     - dict
+     - dictionary
      - The state of the problem before the reset was requested.
    * - ``problem_id``
      - string
      - ID of the problem being reset. 
+
+``save_problem_fail`` 
+*********************************
+
+.. no sample to check
+
+The server emits ``save_problem_fail``  events when a problem cannot be saved
+successfully.
+
+**Event Source**: Server
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``answers`` 
+     - dictionary
+     - 
+   * - ``failure`` 
+     - string
+     - 'closed', 'done' 
+   * - ``problem_id``
+     - string
+     - ID of the problem being saved. 
+   * - ``state``
+     - dictionary
+     - Current problem state.
+
+``save_problem_success``
+*********************************
+
+.. no sample to check
+
+The server emits ``save_problem_success`` events when a problem is saved
+successfully.
+
+**Event Source**: Server
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``answers``
+     -  dictionary
+     -  
+   * - ``problem_id``
+     - string
+     - ID of the problem being saved. 
+   * - ``state``
+     - dictionary
+     - Current problem state. 
 
 ``show_answer`` 
 *********************************
@@ -2124,101 +2758,16 @@ The server emits ``show_answer`` events when the answer to a problem is shown.
      - string
      - EdX ID of the problem being shown. 
 
-``save_problem_fail`` 
-*********************************
-
-.. no sample to check
-
-The server emits ``save_problem_fail``  events when a problem cannot be saved
-successfully.
-
-**Event Source**: Server
-
-``event`` **Member Fields**: 
-
-.. list-table::
-   :widths: 15 15 60
-   :header-rows: 1
-
-   * - Field
-     - Type
-     - Details
-   * - ``answers`` 
-     - dict
-     - 
-   * - ``failure`` 
-     - string
-     - 'closed', 'done' 
-   * - ``problem_id``
-     - string
-     - ID of the problem being saved. 
-   * - ``state``
-     - dict
-     - Current problem state.
-
-``save_problem_success``
-*********************************
-
-.. no sample to check
-
-The server emits ``save_problem_success`` events when a problem is saved
-successfully.
-
-**Event Source**: Server
-
-``event`` **Member Fields**: 
-
-.. list-table::
-   :widths: 15 15 60
-   :header-rows: 1
-
-   * - Field
-     - Type
-     - Details
-   * - ``answers``
-     -  dict
-     -  
-   * - ``problem_id``
-     - string
-     - ID of the problem being saved. 
-   * - ``state``
-     - dict
-     - Current problem state. 
-
-``problem_graded``
-*********************************
-
-.. return Logger.log('problem_graded', [_this.answers, response.contents], _this.id);
-
-The server emits a ``problem_graded`` event each time a user clicks **Check**
-for a problem and it is graded successfully.
-
-``event`` **Member Fields**: 
-
-.. list-table::
-   :widths: 15 15 60
-   :header-rows: 1
-
-   * - Field
-     - Type
-     - Details
-   * - ``[answers, contents]``
-     - array
-     - ``answers`` provides the value checked by the user. 
-       
-       ``contents`` delivers HTML using data entered for the problem in Studio,
-       including the display name, problem text, and choices or response field
-       labels.
-
-       The array includes each problem in a problem component that has multiple
-       problems.
-
-
 .. _library_events:
 
 ==========================
 Library Interaction Events
 ==========================
+
+This section includes descriptions of the following events. 
+
+* ``edx.librarycontentblock.content.assigned``
+* ``edx.librarycontentblock.content.removed``
 
 Course teams in an organization can collaboratively contribute to libraries of
 content, such as a collection of problem components for a particular subject.
@@ -2290,7 +2839,7 @@ delivered for the first time.
 
        * ``descendants``, when present, is a list that identifies each
          part of a library component that contains multiple parts (the
-         children of an xblock with children).
+         children of an XBlock with children).
 
        * ``original_usage_key`` and ``original_usage_version`` identify the
          component in the library. 
@@ -2375,6 +2924,13 @@ The following additional ``event`` member fields apply specifically to
 Discussion Forums Events
 ==========================
 
+This section includes descriptions of the following events. 
+
+* ``edx.forum.comment.created``
+* ``edx.forum.response.created``
+* ``edx.forum.searched``
+* ``edx.forum.thread.created``
+
 The server emits discussion forums events when a user interacts with a course
 discussion. This section presents the discussion forum events alphabetically.
 However, several of these events have hierarchical or sequential
@@ -2386,14 +2942,21 @@ relationships.
 * When a user responds to a thread, such as another student answering the
   question, the server emits an :ref:`forum_response` event.
 
-* When a user adds a comment to a response, such as a staff member adding a
-  clarification to the student answer, the server emits an
+* When a user adds a comment to a response, such as a course team member adding
+  a clarification to the student answer, the server emits an
   :ref:`forum_comment` event.
 
 These events are included in the daily event logs in addition to the MongoDB
 discussion forums database data that is included in the weekly database data
 files. For information about the discussion forums database, see
 :ref:`Discussion Forums Data`.
+
+If a thread, response, or comment was part of a team discussion within a
+course, a ``team_id`` field is included in the ``edx.forum.thread.created``,
+``edx.forum.response.created``, or ``edx.forum.comment.created`` event to
+identify the team in which the discussion event was triggered. For more
+information about events for teams, see :ref:`student_teams_events`.
+
 
 .. _forum_comment:
 
@@ -2422,6 +2985,7 @@ purpose for comments as they do for threads or responses.
 * ``discussion``
 * ``id``
 * ``options``
+* ``team_id``
 * ``truncated``
 * ``url``
 * ``user_course_roles``
@@ -2464,6 +3028,7 @@ member fields serve the same purpose for responses as they do for threads.
 * ``commentable_id``
 * ``id``
 * ``options``
+* ``team_id``
 * ``truncated``
 * ``url``
 * ``user_course_roles``
@@ -2569,11 +3134,12 @@ complete, the server emits an ``edx.forum.thread.created`` event.
    * - Field
      - Type
      - Details
+
    * - ``anonymous``
      - Boolean
      - Applies only to courses that allow discussion posts that are anonymous
        to all other users.
-       
+
        'true' only if the user selected the **post anonymously** check box.
 
    * - ``anonymous_to_peers``
@@ -2581,13 +3147,13 @@ complete, the server emits an ``edx.forum.thread.created`` event.
      - Applies only to courses that allow discussion posts that are anonymous
        to other students. The username of the thread creator is visible only
        to users who have discussion management privileges.
-       
+
        'true' only if the user selected the **post anonymously to classmates**
        check box.
 
    * - ``body``
      - string
-     - The text supplied for the new post.
+     - The text supplied for the new post.      
        
        Also present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
@@ -2598,8 +3164,8 @@ complete, the server emits an ``edx.forum.thread.created`` event.
        course-wide discussion.
 
        Also present for ``edx.forum.response.created`` and
-       ``edx.forum.comment.created`` events.
-       
+       ``edx.forum.comment.created`` events.  
+
    * - ``category_name``
      - string
      - The display name for the specific discussion component or top-level,
@@ -2615,18 +3181,19 @@ complete, the server emits an ``edx.forum.thread.created`` event.
 
        Also present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
-       
+
    * - ``group_id``
      - string
      - The numeric ID of the cohort to which the contribution is restricted,
        or ``null`` if the contribution is not restricted to a specific cohort.
+
    * - ``id``
      - string
      - A unique identifier for this forum contribution.
 
        Also present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
-       
+
    * - ``options``
      - dictionary
      - Contains the ``followed`` Boolean, which identifies whether the user
@@ -2634,14 +3201,22 @@ complete, the server emits an ``edx.forum.thread.created`` event.
 
        Also present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
-       
+
+   * - ``team_id``
+     - string
+     - If the thread is part of a team discussion within a course, this field
+       identifies the team that the thread was created in. For more
+       information about events for teams, see :ref:`student_teams_events`.
+
    * - ``thread_type``
      - string
      - The person who creates the thread specifies either 'discussion' or
        'question' to characterize the purpose of the post.
+
    * - ``title``
      - string
      - The brief descriptive text supplied to identify the post.
+
    * - ``truncated``
      - Boolean
      - 'true' only if the post was longer than 2000 characters, which is the
@@ -2649,7 +3224,7 @@ complete, the server emits an ``edx.forum.thread.created`` event.
 
        Also present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
-       
+
    * - ``url``
      - string
      - The escaped URL of the page the user was visiting when this event was
@@ -2657,24 +3232,23 @@ complete, the server emits an ``edx.forum.thread.created`` event.
 
        Also present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
-       
+
    * - ``user_course_roles``
      - array
-     - Identifies the course-level 'Instructor' or 'Staff' privilege assigned
-       to the user. No value is reported for students.
+     - Identifies the course-level 'Instructor' (that is, Admin) or 'Staff'
+       privilege assigned to the user. No value is reported for students.
 
        Also present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
-       
+
    * - ``user_forums_roles``
      - array
      - Identifies a user who does not have discussion management privileges as
        a 'Student'. Identifies users who have discussion management privileges
-       as a course 'Community TA', 'Moderator', or 'Administrator'.
-
-       Also present for ``edx.forum.response.created`` and
+       as a course 'Community TA', 'Moderator', or 'Administrator'. Also
+       present for ``edx.forum.response.created`` and
        ``edx.forum.comment.created`` events.
-       
+
 
 .. _ora2:
 
@@ -2682,11 +3256,17 @@ complete, the server emits an ``edx.forum.thread.created`` event.
 Open Response Assessment Events 
 ======================================
 
+This section includes descriptions of the following events. 
+
+.. contents::  
+  :local:
+  :depth: 1
+
 In an open response assessment, students review a question and then submit a
 text response and, optionally, an image file. To evaluate their own and one or
-more other students' responses to the questions, students use an instructor-
-definfed scoring rubric. For more information about open response assessments,
-see `Creating a Peer Assessment`_.
+more other students' responses to the questions, students use a scoring rubric
+designed by the course team. For more information about open response
+assessments, see `Creating a Peer Assessment`_.
 
 **Component**: Open Response Assessments
 
@@ -2716,8 +3296,8 @@ this event when a response is delivered to a student for evaluation.
    * - ``course_id``
      - string
      - The identifier of the course that includes this assessment. For open
-       response assessment problems, the course ID is stated in org/course/run
-       format. 
+       response assessment problems, the course ID is stated in
+       {org}/{course}/{run} format.
 
        (For courses created after mid-2014, the course ID is converted to this
        format for open response assessment problems only.)
@@ -2731,7 +3311,7 @@ this event when a response is delivered to a student for evaluation.
        response.
    * - ``submission_returned_uuid``
      - string
-     - The unique identifer of the response that the student retrieved for
+     - The unique identifier of the response that the student retrieved for
        assessment. 
 
        If no assessment is available, this is set to "None".
@@ -2769,15 +3349,15 @@ peer's response or submits a self-assessment of her own response.
        rubric's criteria.
 
        * ``criterion`` (object) contains ``points possible`` and ``name``
-         member fields
-       * ``option`` (string)
-       * ``feedback`` (string)
+         member fields.
+       * ``option`` (string).
+       * ``feedback`` (string).
 
        When the only criterion in the rubric is student feedback, ``points
        possible`` is 0 and the ``option`` field is not included.
        
    * - ``rubric``
-     - dict
+     - dictionary
      - This field contains the member field ``contenthash``, which identifies
        the rubric that the student used to assess the response.
    * - ``scored_at``
@@ -2824,8 +3404,8 @@ other feedback about the assessment process.
      - string
      - The unique identifier of the feedback.
 
-``openassessment.create_submission``
-*************************************
+``openassessmentblock.create_submission``
+******************************************
 
 The server emits this event when a student submits a response. The same event
 is emitted when a student submits a response for peer assessment or for self
@@ -2845,7 +3425,7 @@ assessment.
      - Type
      - Details
    * - ``answer``
-     - dict
+     - dictionary
      - This field contains a ``text`` (string) member field for the response. 
        
        For responses that also include an image file, this field contains a
@@ -2867,8 +3447,8 @@ assessment.
      - string
      - The unique identifier of the response.
 
-``openassessment.save_submission``
-***********************************
+``openassessmentblock.save_submission``
+****************************************
 
 The server emits this event when a student saves a response. Students
 save responses before they submit them for assessment.
@@ -2887,7 +3467,7 @@ save responses before they submit them for assessment.
      - Type
      - Details
    * - ``saved_response``
-     - dict
+     - dictionary
      - This field contains a ``text`` (string) member field for the response. 
        
        For responses that also include an image file, this field contains a
@@ -2901,9 +3481,9 @@ save responses before they submit them for assessment.
 
 The server emits this event when a student submits an assessment for an
 example response. To assess the example, the student uses a scoring rubric
-provided by the instructor. These events record the options the student
+provided by the course team. These events record the options the student
 selected to assess the example and identifies any criteria that the student
-scored differently than the instructor.
+scored differently than the course team.
 
 **Event Source**: Server
 
@@ -2921,8 +3501,8 @@ scored differently than the instructor.
    * - ``corrections``
      - object
      - A set of name/value pairs that identify criteria for which the student
-       selected a different option than the instructor, in the format
-       ``criterion_name: instructor-defined_option_name``.
+       selected a different option than the course team, in the format
+       ``criterion_name: course-team-defined_option_name``.
    * - ``options_selected``
      - object
      - A set of name/value pairs that identify the option that the student
@@ -2966,18 +3546,113 @@ the response.
      - The MIME type of the uploaded file. Reported by the student's browser.
 
 
+.. _Poll and Survey Events:
+
+===========================
+Poll and Survey Events
+===========================
+
+This section describes events emitted by the poll and survey XBlocks. 
+
+.. contents::  
+  :local:
+  :depth: 1
+
+**History**: Added 8 Jul 2015.
+
+``xblock.poll.submitted``
+************************************
+
+The server emits an ``xblock.poll.submitted`` event each time a user submits a
+response to a poll.
+
+**Event Source**: Server
+
+``event`` **Member Fields**:
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``url_name``
+     - string
+     - The unique location identifier for the poll XBlock.
+   * - ``choice``
+     - string
+     - The unique internal identifier for the response that the user submitted.
+
+
+``xblock.poll.view_results``
+************************************
+
+The server emits an ``xblock.poll.view_results`` event when a tally of the
+responses to a poll is displayed to a user. For a poll that has the **Private
+Results** option set to False, the tally appears after a user submits a
+response.
+
+**Event Source**: Server
+
+``event`` **Member Fields**: None
+
+``xblock.survey.submitted``
+************************************
+
+The server emits an ``xblock.survey.submitted`` event each time a user submits
+responses to a survey.
+
+**Event Source**: Server
+
+``event`` **Member Fields**:
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``url_name``
+     - string
+     - The unique location identifier for the survey XBlock.
+   * - ``choices``
+     - object
+     - Name/value pairs that identify each question in the survey and the
+       responses that the user selected, in the format 
+       ``"question_name": "'response_name"``.
+
+
+``xblock.survey.view_results``
+************************************
+
+The server emits an ``xblock.survey.view_results`` event when a matrix of
+survey response percentages is displayed to a user. For surveys that have the
+**Private Results** option set to False only, the matrix appears after a user
+submits survey responses.
+
+**Event Source**: Server
+
+``event`` **Member Fields**: None
+
 .. _content:
 
 ===========================
 Third-Party Content Events
 ===========================
 
+This section includes descriptions of the following events. 
+
+* ``edx.googlecomponent.calendar.displayed`` 
+* ``edx.googlecomponent.document.displayed``
+
 EdX courses can include components that present content that is hosted by a
 third party. The server emits events when third-party content is shown to
 students.
 
 ``edx.googlecomponent.calendar.displayed`` and ``edx.googlecomponent.document.displayed``
-******************************************************************************************
+*********************************************************************************************
 
 The server emits an ``edx.googlecomponent.calendar.displayed`` event when a
 Google Calendar component is shown in the LMS. The server emits an
@@ -3016,6 +3691,11 @@ to a course, see `Creating Exercises and Tools`_.
 ========================================
 Testing Events for Content Experiments
 ========================================
+
+This section includes descriptions of the following events. 
+
+* ``assigned_user_to_partition``
+* ``child_render``
 
 Course authors can configure course content to present modules that contain
 other modules. Content experiments, also known as A/B or split tests, use this
@@ -3121,7 +3801,7 @@ the child module that was shown to the student.
      - Details
    * - ``child_id``
      - string
-     - ID of the module that displays to the student. 
+     - ID of the module that was displayed to the student. 
        
        **History**: Renamed on 16 Oct 2014 from ``child-id`` to ``child_id``.
        
@@ -3131,6 +3811,12 @@ the child module that was shown to the student.
 ==========================
 Student Cohort Events
 ==========================
+
+This section includes descriptions of the following events. 
+
+* ``edx.cohort.created``
+* ``edx.cohort.user_added``
+* ``edx.cohort.user_removed``
 
 For information about including student cohorts in a course, see `Including
 Student Cohorts`_ in the *Building and Running an edX Course* guide.
@@ -3236,16 +3922,645 @@ Instructor Dashboard, the server emits an ``edx.cohort.user_removed`` event.
      - The numeric ID (from ``auth_user.id``) of the removed user.
 
 
+.. _student_teams_events:
+
+==========================
+Teams-Related Events
+==========================
+
+This section includes descriptions of the following events, which are
+generated if a course includes teams, and learners or course team members
+perform particular teams-related actions. This list includes both student
+events and course team events, because some of these events are triggered by
+actions that can be performed both by students and course staff (with the
+Staff, Admin, Discussion Admin or Discussion Moderator roles), or by students
+with special roles such as Community TAs.
+
+This section presents teams-related events alphabetically. Typically, the
+first event produced when teams are included in a course is the
+``edx.team.created`` event.
+
+.. note:: The Teams feature is in limited release. For more information,
+   contact your edX Partner Manager. For Open edX sites, contact your system
+   administrator.
+
+.. contents:: 
+  :local:
+  :depth: 1
+
+
+For information about including teams in a course, see `Teams Setup`_ in the
+*Building and Running an edX Course* guide.
+
+
+.. _edx_team_activity_updated:
+
+``edx.team.activity_updated``
+*********************************
+
+When team discussion activity has occurred on a team, including a team member
+posting, editing posts, commenting, responding, endorsing, and so on), the
+server emits an ``edx.team.activity_updated`` event. 
+
+The definition of activity that would trigger this event does not include
+changes in team membership. 
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member field.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``team_id``
+     - string
+     - The identifier for the team.
+
+
+.. _edx_team_changed:
+
+``edx.team.changed``
+*********************************
+
+When a team's information is edited, the server emits one
+``edx.team.team_changed`` event for each modified field.
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member fields.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``field``
+     - string
+     - The name of the field within the team's details that was modified such
+       as team name, description, primary country, or primary language.
+   * - ``new``
+     - string
+     - The value of the field after the modification. If this value is longer
+       than 1250 characters, the string is truncated, ``...`` is added at the
+       end of the string, and this field is included in the ``truncated``
+       array.
+   * - ``old``
+     - string
+     - The value of the field before the modification. If this value is longer
+       than 1250 characters, the string is truncated, ``...`` is added at the
+       end of the string, and this field is included in the ``truncated``
+       array.  
+   * - ``truncated``
+     - array
+     - The ``truncated`` event field is an array of the ``old`` and ``new``
+       fields that have been truncated.
+
+The ``edx.team.changed`` event also includes the following ``event`` member
+field.
+
+* ``team_id``
+
+This field serves the same purpose for this event as it does for the
+:ref:`edx_team_activity_updated` event.
+
+
+``edx.team.created``
+*********************************
+
+When a team is created, either by a course team member or by a learner, the
+server emits an ``edx.team.created`` event.
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member field.
+
+This field serves the same purpose for this event as it does for the
+:ref:`edx_team_activity_updated` event.
+
+* ``team_id``
+
+
+``edx.team.deleted``
+*********************************
+
+When a team is deleted, the server emits an ``edx.team.deleted`` event. Course
+team members who have any of the **Staff**, **Admin**, **Discussion Admin**,
+**Discussion Moderator**, or **Community TA** roles can delete teams.
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member field.
+
+This field serves the same purpose for this event as it does for the
+:ref:`edx_team_activity_updated` event.
+
+* ``team_id``
+
+
+``edx.team.learner_added``
+*********************************
+
+When a user joins a team or is added by someone else, the server emits an
+``edx.team.learner_added`` event.
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member fields.
+
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``add_method``
+     - string
+     - The method by which the user joined the team. Possible values are
+       ``added_on_create``, ``joined_from_team_view``, or
+       ``added_by_another_user``.
+   * - ``user_id``
+     - string
+     - The identifier for the user who joined or was added to the team.  
+
+The ``edx.team.learner_added`` event also includes the following ``event``
+member field. 
+
+* ``team_id``
+
+This field serves the same purpose for this event as it does for the
+:ref:`edx_team_activity_updated` event.
+
+
+
+``edx.team.learner_removed``
+*********************************
+
+When a user leaves a team or is removed by someone else, the server emits an
+``edx.team.learner_deleted`` event. This event is also triggered when a team
+is deleted, because all members are removed when a team is deleted.
+
+Course team members who have any of the **Staff**, **Admin**, **Discussion
+Admin**, **Discussion Moderator**, or **Community TA** roles can remove
+learners from teams.
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member fields.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``remove_method``
+     - string
+     - The method by which the user was removed from the team. Possible
+       values are ``self_removal``, ``team_deleted``, or ``removed_by_admin``.
+   * - ``user_id``
+     - string
+     - The identifier for the user who left or was removed from the team.
+
+The ``edx.team.learner_removed`` event also includes the following ``event``
+member field. 
+
+* ``team_id``
+
+This field serves the same purpose for this event as it does for the
+:ref:`edx_team_activity_updated` event.   
+
+
+``edx.team.page_viewed``
+*********************************
+
+When a user views any page with a unique URL under the **Teams** page in the
+courseware, the server emits an ``edx.team.page_viewed`` event.
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member fields.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details  
+   * - ``page_name``  
+     - string
+     - The name of the page that was viewed. Possible values are: ``browse``,
+       ``edit-team``, ``my-teams``, ``new-team``, ``search teams``, ``single-
+       team``, and ``single-topic``.
+   * - ``topic_id``
+     - string
+     - The identifier of the topic related to the page that was viewed. This
+       value is set to ``null`` if a topic is not applicable to the page that
+       was viewed, or if the topic does not exist.
+
+
+The ``edx.team.page_viewed`` event also includes the following ``event``
+member field. 
+
+* ``team_id``
+
+This field serves the same purpose for this event as it does for the
+:ref:`edx_team_activity_updated` event. For the ``edx.team.page_viewed`` event,
+the value of this field is set to ``null`` if the page that was viewed has no
+applicable team, or if a team does not exist.
+
+
+``edx.team.searched``
+*********************************
+
+When a user performs a search for teams from the topic view under the
+**Teams** page of the courseware, the server emits an ``edx.team.searched``
+event.
+
+**Event Source**: Server
+
+**History** Added 16 Sept 2015.
+
+``event`` **Member Fields**:
+
+In addition to the :ref:`common<context>` ``context`` member fields, this
+event type also includes the following ``event`` member fields.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``number_of_results``
+     - integer
+     - The count of results that matched the search text.  
+   * - ``search_text``
+     - string
+     - The text or keywords used in the search.
+   * - ``topic_id``
+     - string
+     - The identifier for the topic under which this search for teams was
+       performed. 
+
+
+
+.. Commenting out badging events; add back when Badging supported on edx.org
+
+  .. _badging_events:
+
+  =================================
+  Badging Events 
+  =================================
+
+  This section includes descriptions of the following events related to badges,
+  which are created when learners have achieved some course milestone, usually
+  the awarding of a course certificate. Badges are created automatically when
+  certificates are generated. A badge is uniquely identifiable by its assertion
+  information. A badge assertion represents a badge being awarded to a learner,
+  and describes the following three items.
+
+       * Who the badge was awarded to.
+       * What the badge represents (for example, course identifier, enrollment mode).
+       * Who issued the badge (the issuing organization).
+
+      When learners earn badges, they can download a badge image and share it on
+      social networks or on badge display sites such as Mozilla Backpack. When
+      other parties visit the shared badge links, they can view information that
+      gives evidence of the learner's achievement. 
+
+
+      * ``edx.badge.assertion.created`` 
+      * ``edx.badge.assertion.shared`` 
+      * ``edx.badge.assertion.evidence_visited``
+
+
+      ``edx.badge.assertion.created``
+      *********************************
+
+      When a badge is created that associates a specific learner with a specific
+      achievement, the server emits an ``edx.badge.assertion.created`` event.
+
+      **Event Source**: Server
+
+      **History** Added 8 June 2015.
+
+      ``event`` **Member Fields**:
+
+      .. list-table::
+         :widths: 15 15 60
+         :header-rows: 1
+
+         * - Field
+           - Type
+           - Details
+         * - ``assertion_id``
+           - integer
+           - The unique ID of the BadgeAssertion object.
+         * - ``assertion_image_url``
+           - string
+           - The URL of an image file of the badge that includes badge assertion
+             information in the header. These files can serve to verify the user's
+             accomplishment and can be easily shared.
+         * - ``assertion_json_url``
+           - string
+           - The URL of a JSON object containing the badge assertion information.
+         * - ``course_id``
+           - string
+           - The course associated with this badge. 
+         * - ``enrollment_mode``
+           - string
+           - The course enrollment mode associated with this badge.
+         * - ``issuer``
+           - string
+           - The URL of the badge issuer's web site.
+         * - ``user_id``
+           - integer
+           - The numeric ID of the learner who earned this badge.    
+
+
+      ``edx.badge.assertion.shared``
+      *********************************
+
+      When a learner downloads a badge that she has earned for the purpose of
+      sharing it on social media, the server emits an
+      ``edx.badge.assertion.shared`` event.
+
+      **Event Source**: Browser
+
+      **History** Added 8 June 2015.
+
+      ``event`` **Member Fields**:
+
+      The ``edx.badge.assertion.shared`` event includes many of the same ``event``
+      member fields that are described for the ``edx.badge.assertion.created``
+      event. The following member fields serve the same purpose for
+      ``edx.badge.assertion.shared`` as they do for
+      ``edx.badge.assertion.created``.
+
+      * ``assertion_id``
+      * ``assertion_image_url``
+      * ``assertion_json_url``
+      * ``course_id``
+      * ``enrollment_mode``
+      * ``issuer``
+      * ``user_id``
+
+
+      The following additional ``event`` member field applies specifically to
+      ``edx.badge.assertion.shared`` events.
+
+      .. list-table::
+         :widths: 15 15 60
+         :header-rows: 1
+
+         * - Field
+           - Type
+           - Details
+         * - ``social_network``
+           - string
+           - The social network to which the badge is shared.
+
+
+      ``edx.badge.assertion.evidence_visited``
+      *****************************************
+       
+      Each badge contains assertion information that includes an "evidence" field.
+      When badges are displayed on sites such as Mozilla Backpack, the evidence
+      field is used to provide a link to evidence that confirms the badge owner's
+      achievement, usually a certificate.
+       
+      When other users visit social networks or a site such as Mozilla Backpack and
+      use a badge's evidence link to view a badge owner's certificate, the server
+      emits an ``edx.badge.assertion.evidence_visited`` event.
+
+      **Event Source**: Browser
+
+      **History** Added 8 June 2015.
+
+      ``event`` **Member Fields**:
+
+      The ``edx.badge.assertion.evidence_visited`` event includes all of the same
+      ``event`` member fields that are described for the
+      ``edx.badge.assertion.created`` event. The following member fields serve the
+      same purpose for ``edx.badge.assertion.evidence_visited`` as they do for
+      ``edx.badge.assertion.created``.
+
+      * ``assertion_id``
+      * ``assertion_image_url``
+      * ``assertion_json_url``
+      * ``course_id``
+      * ``enrollment_mode``
+      * ``issuer``
+      * ``user_id``
+
+
+.. _certificate_events:
+
+=================================
+Certificate Events 
+=================================
+
+This section includes descriptions of the events related to certificates, which
+are awarded to qualified learners when they complete a course.
+
+* ``edx.certificate.created`` 
+* ``edx.certificate.shared`` 
+* ``edx.certificate.evidence_visited``
+
+
+``edx.certificate.created``
+*********************************
+
+When a certificate is generated, a record is created in the
+``certificates_generatedcertificate`` table, triggering an
+``edx.certificate.created`` event. For details, see
+:ref:`certificates_generatedcertificate`.
+
+**Event Source**: Server
+
+**History** Added 2 September 2015.
+
+``event`` **Member Fields**:
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+
+   * - ``certificate_id``
+     - string
+     - The ``verify.uuid`` value from the
+       ``certificates_generatedcertificate`` table. This string appears at the
+       bottom of each certificate.
+   * - ``certificate_url``
+     - string
+     - The URL for the certificate web page.  
+   * - ``course_id``
+     - string
+     - The course for which this certificate is issued. 
+   * - ``enrollment_mode``
+     - string
+     - The course enrollment mode associated with this certificate.
+   * - ``generation_mode``
+     - string
+     - Indicates whether this certificate was generated for all learners in a
+       course by a batch command, or whether a learner generated her own
+       certificate. Possible values are "batch" and "self".
+   * - ``user_id``
+     - integer
+     - The numeric ID of the learner who earned this certificate.    
+
+
+``edx.certificate.shared``
+*********************************
+
+When a learner shares the URL for her certificate on a social media web site,
+the server emits an ``edx.certificate.shared`` event.
+
+**Event Source**: Browser
+
+**History** Added 2 September 2015.
+
+``event`` **Member Fields**:
+
+The ``edx.certificate.shared`` event includes many of the same ``event``
+member fields that are described for the ``edx.certificate.created`` event.
+The following member fields serve the same purpose for
+``edx.certificate.shared`` as they do for `edx.certificate.created`_.
+
+* ``certificate_id``
+* ``certificate_url``
+* ``course_id``
+* ``enrollment_mode``
+* ``user_id``
+
+The following additional ``event`` member field applies specifically to
+``edx.certificate.shared`` events.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``social_network``
+     - string
+     - The social network to which the certificate is shared, such as
+       "LinkedIn", "Facebook", or "Twitter".
+
+
+``edx.certificate.evidence_visited``
+**************************************
+ 
+When a learner shares her certificates on social network sites such as
+LinkedIn, and the link back to the certificate is followed by some visitor to
+that social network site, the server emits an
+``edx.certificate.evidence_visited`` event.
+
+**Event Source**: Browser
+
+**History** Added 2 September 2015.
+
+``event`` **Member Fields**:
+
+The ``edx.certificate.evidence_visited`` event includes all of the same
+``event`` member fields that are described for the ``edx.certificate.created``
+event. The following member fields serve the same purpose for
+``edx.certificate.evidence_visited`` as they do for
+``edx.certificate.created``.
+
+* ``certificate_id``
+* ``certificate_url``
+* ``course_id``
+* ``enrollment_mode``
+* ``user_id``
+
+
+The following additional ``event`` member fields apply specifically to
+``edx.certificate.evidence_visited`` events.
+
+.. list-table::
+   :widths: 15 15 60
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details  
+   * - ``social_network``
+     - string
+     - The social network to which the certificate is shared, such as
+       "LinkedIn", "Facebook", or "Twitter".
+   * - ``source_url``
+     - string
+     - The URL of the web site where the certificate evidence link was
+       selected. This URL is the same as the URI in the ``context.referer``
+       field. For details, see `referer field`_.
+
+
 .. _ora:
 
 ============================================
 Open Response Assessment Events (Deprecated)
 ============================================
 
-**History**: The events in this section recorded interactions with the
-prototype implementation of open response assessment (ORA) problem types. As of
-May 2014, new courses no longer used this implementation for open response
-assessments.
+The events described in this section recorded interactions with the prototype
+implementation of open response assessment (ORA 1) problem types. EdX
+deprecated this feature in May 2014, and removed the ability to add a new ORA 1
+assignment to courses in December 2014.
+
+For more information about events for the current implementation of open
+response assessments, see :ref:`ora2`.
 
 ``oe_hide_question`` and ``oe_show_question``
 ******************************************************************
@@ -3331,9 +4646,7 @@ user hides or redisplays a combined open-ended problem.
 ``peer_grading_hide_question`` and ``peer_grading_show_question``
 ******************************************************************
 
-.. I couldn't find these names in any js file. peer_grading_problem.js includes oe_hide or show_question.
-
-The browser emits ``peer_grading_hide_question`` and
+The browser emits ``peer_grading_hide_question`` and 
 ``peer_grading_show_question`` events when the user hides or redisplays a
 problem that is peer graded.
 
@@ -3360,9 +4673,7 @@ and ``peer_grading_show_problem``.
 ``staff_grading_hide_question`` and ``staff_grading_show_question``
 ********************************************************************
 
-.. staff_grading.js
-
-The browser emits ``staff_grading_hide_question`` and
+The browser emits ``staff_grading_hide_question`` and 
 ``staff_grading_show_question`` events when the user hides or redisplays a
 problem that is staff graded.
 
@@ -3389,14 +4700,14 @@ and ``staff_grading_show_problem``.
 .. _Instructor_Event_Types:
 
 *************************
-Instructor Events
+Course Team Events
 *************************
 
-This section lists the events that the server emits as a result of course team
-interaction with the Instructor Dashboard in the LMS.
+This section lists events that are generated by interactions with the
+Instructor Dashboard in the LMS.
 
-The schema definitions of each of these events include only the JSON fields
-that are common to all events. See :ref:`common`.
+The schema definitions for events include only the JSON fields that are common
+to all events follow.
 
 * ``dump-answer-dist-csv``
 * ``dump-graded-assignments-config``
@@ -3409,11 +4720,20 @@ that are common to all events. See :ref:`common`.
 * ``list-staff``
 * ``list-students``
 
-.. _rescore_all:
+For more information about the common fields, see :ref:`common`.
+
+Course team events that have additional ``context`` or ``event`` member fields
+follow.
+
+.. contents:: Section Contents 
+  :local:
+  :depth: 1
 
 ======================================================
-``rescore-all-submissions`` and ``reset-all-attempts``
+``add_instructor`` and ``remove_instructor`` 
 ======================================================
+
+.. previously a comma-separated list; "Rows identical after the second column" (which means the name and description columns) were combined
 
 **Component**: Instructor Dashboard
 
@@ -3427,10 +4747,9 @@ that are common to all events. See :ref:`common`.
 
    * - Field
      - Type
-   * - ``course``
+   * - ``instructor``
      - string
-   * - ``problem`` 
-     - string
+
 
 .. _rescore_student:
 
@@ -3459,6 +4778,111 @@ that are common to all events. See :ref:`common`.
    * - ``student``
      - string
 
+
+======================================================
+``edx.instructor.report.downloaded`` 
+======================================================
+
+The browser emits an  ``edx.instructor.report.downloaded`` event when the user
+clicks a report link on the Instructor Dashboard to download a report.
+
+**History**: Added 8 May 2015.
+
+**Component**: Instructor Dashboard
+
+**Event Source**: Browser
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 20 20 40
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``report_url``
+     - string
+     - The URL to the report file.  
+
+
+======================================================
+``edx.instructor.report.requested`` 
+======================================================
+
+The server emits an  ``edx.instructor.report.requested`` event when the user
+clicks to request the generation of a report on the Instructor Dashboard. 
+
+**History**: Added 8 May 2015.
+
+**Component**: Instructor Dashboard
+
+**Event Source**: Server
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 20 20 40
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Details
+   * - ``report_type``
+     - string
+     - The type of report that was requested.
+
+
+.. _progress:
+
+======================================================
+``get-student-progress-page`` 
+======================================================
+
+**Component**: Instructor Dashboard
+
+**Event Source**: Server
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 40 40
+   :header-rows: 1
+
+   * - Field
+     - Type
+   * - ``course``
+     - string
+   * - ``instructor``
+     - string
+   * - ``student``
+     - string
+
+
+.. _rescore_all:
+
+======================================================
+``rescore-all-submissions`` and ``reset-all-attempts``
+======================================================
+
+**Component**: Instructor Dashboard
+
+**Event Source**: Server
+
+``event`` **Member Fields**: 
+
+.. list-table::
+   :widths: 40 40
+   :header-rows: 1
+
+   * - Field
+     - Type
+   * - ``course``
+     - string
+   * - ``problem`` 
+     - string
+
+
 .. _reset_attempts:
 
 ======================================================
@@ -3486,56 +4910,13 @@ that are common to all events. See :ref:`common`.
    * - ``student``
      - string
 
-.. _progress:
 
-======================================================
-``get-student-progress-page`` 
-======================================================
 
-**Component**: Instructor Dashboard
-
-**Event Source**: Server
-
-``event`` **Member Fields**: 
-
-.. list-table::
-   :widths: 40 40
-   :header-rows: 1
-
-   * - Field
-     - Type
-   * - ``course``
-     - string
-   * - ``instructor``
-     - string
-   * - ``student``
-     - string
-
-======================================================
-``add_instructor`` and ``remove_instructor`` 
-======================================================
-
-.. previously a comma-separated list; "Rows identical after the second column" (which means the name and description columns) were combined
-
-**Component**: Instructor Dashboard
-
-**Event Source**: Server
-
-``event`` **Member Fields**: 
-
-.. list-table::
-   :widths: 40 40
-   :header-rows: 1
-
-   * - Field
-     - Type
-   * - ``instructor``
-     - string
 
 .. _list_forum:
 
 ======================================================
-List Discussion Staff Events
+List Discussion Team Events
 ======================================================
 
 .. previously a comma-separated list; "Rows identical after the second column" (which means the name and description columns) were combined
@@ -3564,7 +4945,7 @@ List Discussion Staff Events
 .. _forum:
 
 ======================================================
-Manage Discussion Staff Events   
+Manage Discussion Team Events   
 ======================================================
 
 .. previously a comma-separated list; "Rows identical after the second column" (which means the name and description columns) were combined
@@ -3650,21 +5031,21 @@ Manage Discussion Staff Events
 Instructor Enrollment Events
 =============================
 
-In addition to the enrollment events that are generated when students 
-enroll in or unenroll from a course, actions by instructors and course staff
-members also generate enrollment events.
+In addition to the enrollment events that are generated when students enroll in
+or unenroll from a course, actions by course team members also generate
+enrollment events.
 
 * When a course author creates a course, his or her user account is enrolled in
   the course and the server emits an ``edx.course.enrollment.activated`` event.
 
-* When a user with the Instructor or Course Staff role enrolls in a course, the
+* When a user with the Admin or Staff role enrolls in a course, the
   server emits ``edx.course.enrollment.activated``. The server emits
   ``edx.course.enrollment.deactivated`` events when these users unenroll from a
   course.
 
-* When a user with the Instructor or Course Staff role uses the **Batch
-  Enrollment** feature to enroll students or other staff members in a course,
-  the server emits an ``edx.course.enrollment.activated`` event for each
+* When a user with the Admin or Staff role uses the **Batch Enrollment**
+  feature to enroll students or other course team members in a course, the
+  server emits an ``edx.course.enrollment.activated`` event for each
   enrollment. When this feature is used to unenroll students from a course, the
   server emits a ``edx.course.enrollment.deactivated`` for each unenrollment.
 
@@ -3677,12 +5058,12 @@ For details about the enrollment events, see :ref:`enrollment`.
 .. _instructor_cohort_events:
 
 =============================
-Instructor Cohort Events
+Course Team Cohort Events
 =============================
 
 In addition to the cohort events that are generated when cohorts are created
 and users are assigned to them (see :ref:`student_cohort_events`), actions by
-instructors and course staff members also generate cohort-related events.
+course team members also generate cohort-related events.
 
 For more information about student cohorts, see `Including Student Cohorts`_
 in the *Building and Running an edX Course* guide.
@@ -3690,7 +5071,7 @@ in the *Building and Running an edX Course* guide.
 ``edx.cohort.creation_requested``
 *********************************
 
-When an instructor or course staff member manually creates a cohort on the
+When a course team member manually creates a cohort on the
 Instructor Dashboard, the server emits an ``edx.cohort.creation_requested``
 event.
 
@@ -3717,7 +5098,7 @@ event.
 ``edx.cohort.user_add_requested``
 *********************************
 
-When an instructor or course staff member adds a student to a cohort on the
+When a course team member adds a student to a cohort on the
 Instructor Dashboard, the server emits an ``edx.cohort.user_add_requested``
 event. Course team members can add students to a cohort individually, or by
 uploading a .csv file of student cohort assignments.
@@ -3758,6 +5139,10 @@ uploading a .csv file of student cohort assignments.
      - The numeric ID (from ``auth_user.id``) of the added user.
 
 
+
+
+
+
 .. _Creating a Peer Assessment: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/exercises_tools/open_response_assessments/OpenResponseAssessments.html
 
 .. _Creating Content Experiments: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/content_experiments/index.html#creating-content-experiments
@@ -3771,3 +5156,16 @@ uploading a .csv file of student cohort assignments.
 .. _Creating Exercises and Tools: http://edx-partner-course-staff.readthedocs.org/en/latest/exercises_tools/index.html
 
 .. _Working with Libraries: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/creating_content/libraries.html
+
+.. _Working with Video Components: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/creating_content/create_video.html#advanced-options
+
+.. _Adding a Pre-Roll Video to Your edX Course: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/creating_content/create_video.html#adding-a-pre-roll-video-to-your-edX-course
+
+.. _Adding Hints and Feedback to a Problem: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/creating_content/create_problem.html#adding-hints-and-feedback-to-a-problem
+
+.. _Teams Setup: http://draft-course-author-teams.readthedocs.org/en/latest/teams/teams_setup.html
+
+.. note that the above Teams Course Author doc is available only in draft
+.. form. As of 15 Sept 2015 the feature used in a course pilot but not
+.. widely released on edx.org, so doc has not been published. When it is
+.. published we need to update the link to point to docs.edx.org location.

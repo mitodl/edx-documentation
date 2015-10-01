@@ -4,7 +4,10 @@
 Glossary
 ############
 
-:ref:`A` - :ref:`C` - :ref:`D` - :ref:`E` - :ref:`F` - :ref:`G` - :ref:`H` - :ref:`I` - :ref:`K` - :ref:`L` - :ref:`M` - :ref:`N` - :ref:`P` - :ref:`R` - :ref:`S` - :ref:`T` - :ref:`V` - :ref:`W` - :ref:`XYZ<X>`
+:ref:`A` - :ref:`C` - :ref:`D` - :ref:`E` - :ref:`F` 
+- :ref:`G` - :ref:`H` - :ref:`I` - :ref:`K` - :ref:`L` 
+- :ref:`M` - :ref:`N` - :ref:`O` - :ref:`P` - :ref:`R` 
+- :ref:`S` - :ref:`T` - :ref:`V` - :ref:`W` - :ref:`XYZ<X>`
 
 .. _A:
 
@@ -56,6 +59,15 @@ A
 C
 ****
 
+**Capa Problem**
+
+  Any of the problem types implemented in the edX platform by the
+  ``capa_module`` XBlock. Examples range from text input, drag and drop, and
+  math expression input problem types to circuit schematic builder, custom
+  JavaScript, and chemical equation problem types.
+
+  Other assessment methods are also available, and implemented using other
+  XBlocks. An open response assessment is an example of a non-capa problem type.
 
 .. _Certificate:
  
@@ -145,15 +157,6 @@ C
   For more information, see `Working with Discussion Components`_ and
   `Creating Discussion Topics for Your Course`_.
 
-.. _Course Accordion:
- 
-**Course Accordion**
-
-  The left navigation frame in the courseware that shows the sections and
-  subsections for a course.  The word "accordion" is intended to evoke the
-  folding and unfolding of an accordion, because when you click a section, the
-  section expands to show subsections.
-
 
 .. _Course Catalog:
  
@@ -238,7 +241,7 @@ D
 
   The set of topics defined to promote course-wide or unit-specific dialog.
   Students use the discussion topics to communicate with each other and the
-  course staff in threaded exchanges.
+  course team in threaded exchanges.
 
   For more information, see `Managing Course Discussions`_.
 
@@ -247,7 +250,7 @@ D
  
 **Discussion Component**
 
-  Discussion topics that course staff add directly to units. For example, a
+  Discussion topics that course teams add directly to units. For example, a
   video component can be followed by a discussion component so that students
   can discuss the video content without having to leave the page. When you add
   a discussion component to a unit, you create a content-specific discussion
@@ -430,9 +433,22 @@ L
  
 **Learning Management System (LMS)**
 
-  The platform that students use to view courses, and that course staff
-  members use to manage enrollment and staff privileges, moderate discussions,
-  and access data while the course is running.
+  The platform that students use to view courses, and that course team members
+  use to manage learner enrollment, assign team member privileges, moderate
+  discussions, and access data while the course is running.
+
+**Learning Sequence**
+
+  The horizontal navigation bar that appears at the top of the **Courseware**
+  page in the LMS. The learning sequence contains an icon for each unit in the
+  selected subsection. When a learner moves the cursor over one of these
+  icons, the names of each component in that unit appear.
+ 
+**Left Pane**
+
+  The navigation frame that appears at the left side of the **Courseware**
+  page in the LMS. The left pane shows the sections in the course. When you
+  click a section, the section expands to show subsections.
 
 
 .. _Library_g:
@@ -452,12 +468,20 @@ L
  
 **Live Mode**
 
-  A view that allows course staff to review all published units as students
+  A view that allows the course team to review all published units as students
   see them, regardless of the release dates of the section and subsection that
   contain the units.
 
   For more information, see `View Your Live Course`_.
 
+**LON-CAPA**
+
+  The LearningOnline Network with Computer-Assisted Personalized Approach
+  e-learning platform. The structure of capa problem types in the edX platform
+  is based on the `LON-CAPA`_ assessment system, although they are not
+  compatible.
+
+  See :ref:`Capa Problems<C>`.
 
 .. _M:
 
@@ -524,6 +548,21 @@ N
   For more information, see `Numerical Input Problem`_.
 
 
+.. _O:
+
+****
+O
+****
+
+**Open Response Assessment**
+
+  A type of assignment that allows learners to answer using text and,
+  optionally, an image, as in a short essay. Learners then evaluate each
+  others' work by comparing each response to a rubric created by the course
+  team. These assignments can also include a self assessment, in which
+  learners compare their own responses to the rubric.
+
+  For more information, see `Open Response Assessments`_.
 
 .. _P:
 
@@ -541,6 +580,20 @@ P
   your course's navigation bar.
 
   For more information, see `Adding Pages to a Course`_.
+
+**Partner Manager**
+
+  Each EdX partner institution has an edX Partner Manager. The Partner Manager
+  is the primary contact for the institution's course teams.
+
+
+**Pre-Roll Video**
+
+  A short video file that plays before the video component selected by the learner.
+  Pre-roll videos play automatically, on an infrequent schedule. 
+
+  For more information, see `Adding a Pre-Roll Video`_.
+
 
 .. _Preview Mode:
  
@@ -593,8 +646,8 @@ Q
 
 **Question**
 
-  A question is a type of contribution that you can make to a course
-  discussion topic to bring attention to an issue that the course staff or
+  A question is a type of contribution that you can make to a course discussion
+  topic to bring attention to an issue that the discussion moderation team or
   other students can resolve.
 
   For more information, see `Managing Course Discussions`_.
@@ -745,8 +798,8 @@ W
  
 **Wiki**
 
-  The page in each edX course that allows students as well as course staff to
-  add, modify, or delete content.
+  The page in each edX course that allows both students and members of the
+  course team to add, modify, or delete content.
  
   Students can use the wiki to share links, notes, and other helpful
   information with each other.
@@ -770,8 +823,12 @@ XYZ
   Third parties can create components as web applications that can run within
   the edX learning management system.
 
+**XSeries**
 
+  A set of related courses in a specific subject. Learners qualify for an
+  XSeries certificate when they pass all of the courses in the XSeries.
 
+  For more information, see https://www.edx.org/xseries.
 
 .. _The Course Summary Page: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/building_course/setting_up_student_view.html#the-course-summary-page
 .. _Creating Exercises and Tools: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/exercises_tools/create_exercises_and_tools.html
@@ -822,4 +879,6 @@ XYZ
 .. _Text Input Problem: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/exercises_tools/text_input.html
 .. _Working with Video Components: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/creating_content/create_video.html#working-with-video-components
 .. _Hide or Show the Course Wiki Page: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/building_course/pages.html#hide-or-show-the-course-wiki-page
-
+.. _LON-CAPA: http://www.lon-capa.org/
+.. _Open Response Assessments: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/exercises_tools/open_response_assessments/OpenResponseAssessments.html
+.. _Adding a Pre-Roll Video: http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/creating_content/create_video.html#adding-a-pre-roll-video

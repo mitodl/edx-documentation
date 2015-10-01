@@ -40,7 +40,7 @@ interact with course content.
      - Chrome
      - Safari
      - Firefox
-     - IE 9
+     - IE 11
      - IE 10
    * - Windows 8
      - Yes
@@ -72,7 +72,7 @@ which course teams use to build a course.
      - Chrome
      - Safari
      - Firefox
-     - IE 9
+     - IE 11
      - IE 10
    * - Windows 8
      - Yes
@@ -105,7 +105,7 @@ courses and learners.
      - Chrome
      - Safari
      - Firefox
-     - IE 9
+     - IE 11
      - IE 10
    * - Windows 8
      - Yes
