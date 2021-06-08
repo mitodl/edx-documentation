@@ -49,6 +49,12 @@
 
 .. _fake the migration: https://docs.djangoproject.com/en/2.2/ref/django-admin/#cmdoption-migrate-fake
 
+.. _frontend-app-ecommerce README: https://github.com/edx/frontend-app-ecommerce/blob/master/README.rst
+
+.. _frontend-app-profile README: https://github.com/edx/frontend-app-profile/blob/master/README.rst
+
+.. _frontend-app-payment README: https://github.com/edx/frontend-app-payment/blob/master/README.rst
+
 .. Ginkgo doc links:
 
 .. _Installing, Configuring, and Running the Open edX Platform\: Ginkgo Release: http://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/open-release-ginkgo.master

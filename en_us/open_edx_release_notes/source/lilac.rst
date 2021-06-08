@@ -24,17 +24,13 @@ Open-Response Assessments
 - Allow viewing ORA steps after peer review
 - See the Authoring Experience section below for more ORA enhancements
 
-Account Micro FrontEnd
+Profile Micro FrontEnd
 ----------------------
-The Account MFE is enabled by default and provides private user settings UIs, including:
+The Profile MFE is enabled by default and provides private user settings UIs, including:
 
 - Account settings page
 - Demographics collection
 - IDV (Identity Verification)
-
-Checkout Micro FrontEnd
------------------------
-The Checkout MFE is enabled by default. Prior checkout UIs may not be PCI compliant.
 
 Learning Micro FrontEnd
 -----------------------
@@ -138,6 +134,20 @@ way (separate from your release pipeline), the SQL needed is::
   CREATE INDEX `courseware_stats` ON `courseware_studentmodule` (`module_id`, `grade`, `student_id`);
 
 You can then `fake the migration`_.
+
+Order History Micro FrontEnd
+----------------------------
+See the `frontend-app-ecommerce README`_ for more information on installing and configuring the Order History Micro FrontEnd.
+
+Payment Micro FrontEnd
+----------------------
+See the `frontend-app-payment README`_ for more information on installing and configuring the Payment Micro FrontEnd.
+
+Prior payment UIs may not be PCI compliant.
+
+Profile Micro FrontEnd
+----------------------
+See the `frontend-app-profile README`_ for more information on installing and configuring the Profile Micro FrontEnd.
 
 Course Upsell Messaging and Payment
 -----------------------------------
